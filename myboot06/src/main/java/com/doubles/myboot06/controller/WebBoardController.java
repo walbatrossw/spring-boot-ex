@@ -36,7 +36,7 @@ public class WebBoardController {
 
         Pageable page = vo.makePageable(0, "bno");
 
-        Page<WebBoard> result = repo.findAll(repo.makePredicate(null, null), page);
+        Page<WebBoard> result = repo.findAll(repo.makePredicate(vo.getType(), vo.getKeyword()), page);
         log.info("" + page);
         log.info("" + result);
 
