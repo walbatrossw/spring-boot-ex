@@ -41,6 +41,12 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-
+        $(document).ready(function () {
+            var msg = [[${msg}]];
+            if (msg == "success") {
+                alert("정상적으로 처리되었습니다.");
+                var stateObj = {msg: ""};
+            }
+        });
     </script>
 </th:block>
