@@ -7,6 +7,10 @@
 
     <div class="panel-heading">List PAGE</div>
 
+    <div class="panel-body pull-right">
+        <h3><a class="label label-default" th:href="@{register}">Register</a></h3>
+    </div>
+
     <div class="panel-body">
 
         <div th:with="result=${result.result}">
@@ -75,6 +79,13 @@
     <script th:inline="javascript">
 
         $(document).ready(function () {
+
+            var msg = [[${msg}]];
+            if(msg == "success") {
+                alert("정상적으로 처리되었습니다.");
+                var stateObj = { msg: "" };
+            }
+
             var formObj = $("#f1");
             $(".pagination a").click(function (e) {
                 e.preventDefault();
@@ -92,6 +103,7 @@
                 formObj.find("[name='page']").val("1");
                 formObj.submit();
             });
+
         });
 
     </script>

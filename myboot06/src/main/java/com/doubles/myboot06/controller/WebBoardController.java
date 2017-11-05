@@ -13,7 +13,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/boards/")
@@ -44,5 +47,22 @@ public class WebBoardController {
 
         //model.addAttribute("result", result);
         model.addAttribute("result", new PageMaker(result));
+    }
+
+    // 게시물 입력 페이지 매핑
+    @GetMapping("/register")
+    public void registerGet(@ModelAttribute("vo")WebBoard vo) {
+        log.info("register get");
+    }
+
+    // 게시물 입력 처리
+    @PostMapping("register")
+    public String registerPost(@ModelAttribute("vo")WebBoard vo, RedirectAttributes rttr) {
+        log.info("register post");
+        log.info("" + vo);
+
+        repo.save(vo);
+        rttr.addFlashAttribute("msg", "success");  // URL로는 보이지 않는 문자열 생성
+        return "redirect:/boards/list";
     }
 }
