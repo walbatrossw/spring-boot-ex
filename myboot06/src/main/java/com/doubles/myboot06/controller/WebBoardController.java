@@ -56,7 +56,7 @@ public class WebBoardController {
     }
 
     // 게시물 입력 처리
-    @PostMapping("register")
+    @PostMapping("/register")
     public String registerPost(@ModelAttribute("vo")WebBoard vo, RedirectAttributes rttr) {
         log.info("register post");
         log.info("" + vo);
@@ -64,5 +64,12 @@ public class WebBoardController {
         repo.save(vo);
         rttr.addFlashAttribute("msg", "success");  // URL로는 보이지 않는 문자열 생성
         return "redirect:/boards/list";
+    }
+
+    // 게시물 조회
+    @GetMapping("/view")
+    public void view(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model) {
+        log.info("BNO : " + bno);
+        repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
     }
 }

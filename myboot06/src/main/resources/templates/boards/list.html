@@ -88,7 +88,7 @@
 
             var formObj = $("#f1");
             $(".pagination a").click(function (e) {
-                e.preventDefault();
+                e.preventDefault(); // 기본동작 방지
                 formObj.find('[name="page"]').val($(this).attr("href"));
                 formObj.submit();
             });
@@ -104,7 +104,15 @@
                 formObj.submit();
             });
 
+            $(".boardLink").click(function (e) {
+                e.preventDefault(); // 기본동작 방지
+                var boardNo = $(this).attr("href");
+                formObj.attr("action", [[@{'/boards/view'}]]);
+                formObj.append("<input type='hidden' name='bno' value='" + boardNo + "'>")
+                formObj.submit();
+            });
         });
 
     </script>
 
+</th:block>

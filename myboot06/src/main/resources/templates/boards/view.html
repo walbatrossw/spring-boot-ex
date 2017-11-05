@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout1}">
+
+<div layout:fragment="content">
+
+    <div class="panel-heading">View PAGE</div>
+
+    <div class="panel-body">
+
+
+        <div class="form-group">
+            <label for="bno">BNO</label>
+            <input class="form-control" id="bno" name="bno" th:value="${vo.bno}" readonly="readonly"/>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input class="form-control" id="title" name="title" th:value="${vo.title}" readonly="readonly"/>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" row="3" id="content" name="content" th:text="${vo.content}" readonly="readonly"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="writer">Writer</label>
+            <input class="form-control" id="writer" name="writer" th:value="${vo.writer}" readonly="readonly"/>
+        </div>
+        <div class="form-group">
+            <label for="regdate">Writer</label>
+            <input class="form-control" id="regdate" name="regdate" th:value="${#dates.format(vo.regdate, 'yyyy-MM-dd')}" readonly="readonly"/>
+        </div>
+        <div class="pull-right">
+            <a th:href="@{modify (page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${vo.bno})}" class="btn btn-default">MODIFY/DELETE</a>
+            <a th:href="@{list (page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${vo.bno})}" class="btn btn-primary">GO LIST</a>
+        </div>
+
+    </div>
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+    </script>
+</th:block>
