@@ -39,4 +39,29 @@ public class WebReplyController {
         log.info("getListByBoard..." + board);
         return replyRepo.getRepliesOfBoard(board);
     }
+
+    // 댓글 삭제
+    @Transactional
+    @DeleteMapping("/{bno}/{rno}")
+    public ResponseEntity<List<WebReply>> remove(@PathVariable("bno")Long bno, @PathVariable("rno")Long rno) {
+        log.info("delete reply" + rno);
+        replyRepo.deleteById(rno);
+        WebBoard board = new WebBoard();
+        board.setBno(bno);
+        return new ResponseEntity<>(getListByBoard(board), HttpStatus.OK);
+    }
+
+    // 댓글 수정
+    @Transactional
+    @PutMapping("/{bno}")
+    public ResponseEntity<List<WebReply>> modify(@PathVariable("bno")Long bno, @RequestBody WebReply reply) {
+        log.info("modify reply" + reply);
+        replyRepo.findById(reply.getRno()).ifPresent(origin -> {
+            origin.setReplyText(reply.getReplyText());
+            replyRepo.save(origin);
+        });
+        WebBoard board = new WebBoard();
+        board.setBno(bno);
+        return new ResponseEntity<>(getListByBoard(board), HttpStatus.CREATED);
+    }
 }
