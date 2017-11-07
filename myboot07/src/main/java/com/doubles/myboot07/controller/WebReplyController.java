@@ -5,7 +5,6 @@ import com.doubles.myboot07.domain.WebReply;
 import com.doubles.myboot07.persistence.WebReplyRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,11 +34,6 @@ public class WebReplyController {
         return new ResponseEntity<>(getListByBoard(board), HttpStatus.CREATED);
     }
 
-    private List<WebReply> getListByBoard(WebBoard board) throws RuntimeException {
-        log.info("getListByBoard..." + board);
-        return replyRepo.getRepliesOfBoard(board);
-    }
-
     // 댓글 삭제
     @Transactional
     @DeleteMapping("/{bno}/{rno}")
@@ -63,5 +57,19 @@ public class WebReplyController {
         WebBoard board = new WebBoard();
         board.setBno(bno);
         return new ResponseEntity<>(getListByBoard(board), HttpStatus.CREATED);
+    }
+
+    // 댓글 목록
+    @GetMapping("/{bno}")
+    public ResponseEntity<List<WebReply>> getReplies(@PathVariable("bno")Long bno) {
+        log.info("get All Replies");
+        WebBoard board = new WebBoard();
+        board.setBno(bno);
+        return new ResponseEntity<>(getListByBoard(board), HttpStatus.OK);
+    }
+
+    private List<WebReply> getListByBoard(WebBoard board) throws RuntimeException {
+        log.info("getListByBoard..." + board);
+        return replyRepo.getRepliesOfBoard(board);
     }
 }
