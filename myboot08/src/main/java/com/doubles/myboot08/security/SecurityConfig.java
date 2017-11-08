@@ -3,6 +3,7 @@ package com.doubles.myboot08.security;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +14,7 @@ import javax.sql.DataSource;
 
 @Log
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true) // mvc 애너테이션 처리
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
