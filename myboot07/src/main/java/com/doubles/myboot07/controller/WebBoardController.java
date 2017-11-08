@@ -2,6 +2,7 @@ package com.doubles.myboot07.controller;
 
 
 import com.doubles.myboot07.domain.WebBoard;
+import com.doubles.myboot07.persistence.CustomCrudRepository;
 import com.doubles.myboot07.persistence.WebBoardRepository;
 import com.doubles.myboot07.vo.PageMaker;
 import com.doubles.myboot07.vo.PageVO;
@@ -23,7 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class WebBoardController {
 
     @Autowired
-    private WebBoardRepository repo;
+    //private WebBoardRepository repo;
+    private CustomCrudRepository repo;
 
 
     // @PageableDefault 를 이용한 페이지 처리
@@ -33,19 +35,33 @@ public class WebBoardController {
 //    }
 
     // PageVo를 생성하는 방식
+//    @GetMapping("/list")
+//    public void list(PageVO vo, Model model) {
+//
+//        Pageable page = vo.makePageable(0, "bno");
+//
+//        Page<WebBoard> result = repo.findAll(repo.makePredicate(vo.getType(), vo.getKeyword()), page);
+//        log.info("" + page);
+//        log.info("" + result);
+//
+//        log.info("TOTAL PAGE NUMBER : " + result.getTotalPages());
+//
+//        //model.addAttribute("result", result);
+//        model.addAttribute("result", new PageMaker(result));
+//    }
+
     @GetMapping("/list")
-    public void list(PageVO vo, Model model) {
+    public void list(@ModelAttribute("pageVO")PageVO vo, Model model) {
 
         Pageable page = vo.makePageable(0, "bno");
+        Page<Object[]> result = repo.getCustomPage(vo.getType(), vo.getKeyword(), page);
 
-        Page<WebBoard> result = repo.findAll(repo.makePredicate(vo.getType(), vo.getKeyword()), page);
         log.info("" + page);
         log.info("" + result);
 
         log.info("TOTAL PAGE NUMBER : " + result.getTotalPages());
 
-        //model.addAttribute("result", result);
-        model.addAttribute("result", new PageMaker(result));
+        model.addAttribute("result", new PageMaker<>(result));
     }
 
     // 게시물 입력 페이지 매핑
