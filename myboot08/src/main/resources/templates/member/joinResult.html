@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title>Join Result</title>
+</head>
+<body>
+    <h1>Join Result Page</h1>
+
+    <p>
+        <label for="uid">UID</label>
+        <input type="text" id="uid" name="uid" th:value="${member.uid}" readonly/>
+    </p>
+    <p>
+        <label for="upw">UPW</label>
+        <input type="text" id="upw" name="upw" th:value="${member.upw}" readonly/>
+    </p>
+    <p>
+        <label for="uname">UNAME</label>
+        <input type="text" id="uname" name="uname" th:value="${member.uname}" readonly/>
+    </p>
+    <p>[[${member.roles}]]</p>
+</body>
+</html>
