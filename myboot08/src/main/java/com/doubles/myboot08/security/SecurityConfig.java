@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -14,7 +16,9 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    //DataSource dataSource;
+    DataSource dataSource;
+
+    @Autowired
     UsersService usersService;
 
     @Override
@@ -41,7 +45,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().logoutUrl("/logout").invalidateHttpSession(true);
 
         //
-        http.userDetailsService(usersService);
+        //http.userDetailsService(usersService);
+
+        // Remember-me
+        http.rememberMe()
+                .key("myboot08")
+                .userDetailsService(usersService)
+                .tokenRepository(getJDBCRepository())
+                .tokenValiditySeconds(60*60*24);
+    }
+
+    private PersistentTokenRepository getJDBCRepository() {
+
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+        repo.setDataSource(dataSource);
+        return repo;
     }
 
     // JDBC를 이용한 인증처리
