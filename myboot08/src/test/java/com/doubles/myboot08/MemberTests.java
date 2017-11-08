@@ -43,10 +43,11 @@ public class MemberTests {
             repo.save(member);
         }
     }
-    
+
     @Test
     public void testRead() {
         Optional<Member> result = repo.findById("user85");
         result.ifPresent(member -> log.info("member : " + member));
     }
+
 }
