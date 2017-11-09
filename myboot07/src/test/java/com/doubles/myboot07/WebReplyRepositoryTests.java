@@ -25,7 +25,7 @@ public class WebReplyRepositoryTests {
 
     @Test
     public void testInsertReplies() {
-        Long[] arr = {304L, 303L, 301L};
+        Long[] arr = {299L, 292L, 296L};
 
         Arrays.stream(arr).forEach( num -> {
             WebBoard board = new WebBoard();
