@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/layout1}">
 
@@ -32,9 +33,18 @@
             <input class="form-control" id="regdate" name="regdate"
                    th:value="${#dates.format(vo.regdate, 'yyyy-MM-dd')}" readonly="readonly"/>
         </div>
-        <div class="pull-right">
+        <div class="pull-right"
+             th:with="uid=${#authentication.principal} eq 'anonymousUser' ? 'Guest':${#authentication.principal.member.uid}">
+
+            <!--1. 로그인한 사용자(게시글을 작성한 사용자)에게만 버튼이 보이도록 처리-->
+            <!--<a th:if="${uid} eq ${vo.writer}"-->
+               <!--th:href="@{modify (page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${vo.bno})}"-->
+               <!--class="btn btn-default" id="goModBtn">MODIFY/DELETE</a>-->
+
+            <!--2. 모든 사용자(로그인, 비로그인)에게 버튼이 보이지만 클릭시 로그인 페이지(비로그인) or 작성자만 수정가능 alert창 띄우기-->
             <a th:href="@{modify (page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${vo.bno})}"
-               class="btn btn-default">MODIFY/DELETE</a>
+               class="btn btn-default" id="goModBtn">MODIFY/DELETE</a>
+
             <a th:href="@{list (page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${vo.bno})}"
                class="btn btn-primary">GO LIST</a>
         </div>
@@ -84,11 +94,36 @@
 </div>
 
 <th:block layout:fragment="script">
+
     <script th:inline="javascript" th:src="@{'/js/reply.js'}"></script>
 
     <script th:inline="javascript">
 
         $(document).ready(function (e) {
+
+            var mode;
+            var bno = [[${vo.bno}]];
+            var replyTextObj = $("input[name='replyText']");
+            var replyerObj = $("input[name='replyer']");
+            var rno;
+            var uid = [[${#authentication.principal} eq 'anonymousUser' ? null :${#authentication.principal.member.uid}]];
+
+            // 게시글 수정 버튼 클릭시 로그인 페이지 or 게시글 작성자만 수정 가능 alert 창 띄우기
+            $("#goModBtn").click(function (e) {
+               e.preventDefault();
+               if (uid == null) {
+                   if (confirm("로그인하시겠습니까?")) {
+                       self.location = [[@{/login}]];
+                       //self.location = $(this).attr("href");
+                   }
+               } else {
+                   if (uid == [[${vo.writer}]]) {
+                       self.location = $(this).attr("href");
+                   } else {
+                       alert("작성자만 수정, 삭제가 가능합니다.");
+                   }
+               }
+            });
 
             // 게시글 수정처리 완료 알림
             var msg = [[${msg}]];
@@ -102,12 +137,6 @@
                 replyManager.getAll([[${vo.bno}]], printList);
             })();
 
-            var mode;
-            var bno = [[${vo.bno}]];
-            var replyTextObj = $("input[name='replyText']");
-            var replyerObj = $("input[name='replyer']");
-            var rno;
-
             // 댓글 추가 버튼 클릭시
             $("#addReplyBtn").on("click", function () {
                 $("#myModal").modal("show");
@@ -118,7 +147,7 @@
 
             // 댓글 삭제 버튼 클릭시
             $("#delModalBtn").on("click", function () {
-                var obj = {bno:bno, rno:rno};
+                var obj = {bno: bno, rno: rno};
                 replyManager.remove(obj, function (list) {
                     printList(list);
                     alert("댓글이 삭제되었습니다.");
@@ -149,14 +178,14 @@
                 var replyer = replyerObj.val();
 
                 if (mode == "ADD") {
-                    var obj = {replyText: replyText, replyer:replyer, bno:bno};
+                    var obj = {replyText: replyText, replyer: replyer, bno: bno};
                     //console.log(obj);
                     replyManager.add(obj, function (list) {
                         alert("새로운 댓글이 추가되었습니다.");
                         afterAll(list)
                     });
                 } else if (mode == "MOD") {
-                    var obj = {replyText: replyText, bno:bno, rno:rno};
+                    var obj = {replyText: replyText, bno: bno, rno: rno};
                     replyManager.update(obj, function (list) {
                         alert("댓글이 수정되었습니다.");
                         afterAll(list);
