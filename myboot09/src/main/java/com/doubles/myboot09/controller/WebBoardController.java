@@ -9,6 +9,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +65,7 @@ public class WebBoardController {
     }
 
     // 게시물 수정 페이지 매핑
+    @Secured(value = {"ROLE_BASIC", "ROLE_MANAGER", "ROLE_ADMIN"})
     @GetMapping("/modify")
     public void modify(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model) {
         log.info("MODIFY BNO : " + bno);
@@ -71,6 +73,7 @@ public class WebBoardController {
     }
 
     // 게시물 수정처리
+    @Secured(value = {"ROLE_BASIC", "ROLE_MANAGER", "ROLE_ADMIN"})
     @PostMapping("modify")
     public String modifyPost(WebBoard board, PageVO vo, RedirectAttributes rttr) {
         log.info("MODIFY WebBoard : " + board);
@@ -92,6 +95,7 @@ public class WebBoardController {
     }
 
     // 게시물 삭제
+    @Secured(value = {"ROLE_BASIC", "ROLE_MANAGER", "ROLE_ADMIN"})
     @PostMapping("/delete")
     public String delete(Long bno, PageVO vo, RedirectAttributes rttr) {
         log.info("DELETE BNO : " + bno);
