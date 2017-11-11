@@ -159,7 +159,7 @@
 
             // 댓글 삭제 버튼 클릭시
             $("#delModalBtn").on("click", function () {
-                var obj = {bno: bno, rno: rno};
+                var obj = {bno: bno, rno: rno, csrf: csrf};
                 replyManager.remove(obj, function (list) {
                     printList(list);
                     alert("댓글이 삭제되었습니다.");
@@ -182,6 +182,11 @@
                 $("#delModalBtn").show();
                 $("#myModal").modal("show");
                 $(".modal-title").text("MODIFY/DELETE REPLY");
+
+                if (uid != tds[2].innerHTML.trim()) {
+                    $("#delModalBtn").hide();
+                    $("#modalBtn").hide();
+                }
             });
 
             // 댓글 Modal 버튼 클릭시
@@ -202,7 +207,7 @@
                         afterAll(list)
                     });
                 } else if (mode == "MOD") {
-                    var obj = {replyText: replyText, bno: bno, rno: rno};
+                    var obj = {replyText: replyText, bno: bno, rno: rno, csrf: csrf};
                     replyManager.update(obj, function (list) {
                         alert("댓글이 수정되었습니다.");
                         afterAll(list);
