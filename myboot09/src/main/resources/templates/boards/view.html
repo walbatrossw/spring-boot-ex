@@ -6,6 +6,8 @@
 
 <div layout:fragment="content">
 
+    <form th:action="${'/login'}"></form>
+
     <div class="panel-heading">View PAGE</div>
 
     <div class="panel-body">
@@ -80,7 +82,7 @@
                     <label for="replyText">Reply Text</label>
                     <input type="text" class="form-control" id="replyText" name="replyText"/>
                     <label for="replyer">Replyer</label>
-                    <input type="text" class="form-control" id="replyer" name="replyer"/>
+                    <input type="text" class="form-control" id="replyer" name="replyer" readonly="readonly"/>
                 </div>
                 <div class="modal-footer">
                     <button id="delModalBtn" class="btn btn-danger">Delete</button>
@@ -107,6 +109,7 @@
             var replyerObj = $("input[name='replyer']");
             var rno;
             var uid = [[${#authentication.principal} eq 'anonymousUser' ? null :${#authentication.principal.member.uid}]];
+            var csrf = JSON.parse('[[${_csrf}]]');
 
             // 게시글 수정 버튼 클릭시 로그인 페이지 or 게시글 작성자만 수정 가능 alert 창 띄우기
             $("#goModBtn").click(function (e) {
@@ -139,10 +142,19 @@
 
             // 댓글 추가 버튼 클릭시
             $("#addReplyBtn").on("click", function () {
+
+                if (uid == null) {
+                    if (confirm("로그인하시겠습니까?")) {
+                        self.location = [[@{/login}]];
+                    }
+                    return;
+                }
+                replyerObj.val(uid);
                 $("#myModal").modal("show");
                 $(".modal-title").text("Add Reply");
                 $("#delModalBtn").hide();
                 mode = "ADD";
+
             });
 
             // 댓글 삭제 버튼 클릭시
@@ -178,7 +190,12 @@
                 var replyer = replyerObj.val();
 
                 if (mode == "ADD") {
-                    var obj = {replyText: replyText, replyer: replyer, bno: bno};
+                    var obj = {
+                        replyText: replyText,
+                        replyer: replyer,
+                        bno: bno,
+                        csrf: csrf
+                    };
                     //console.log(obj);
                     replyManager.add(obj, function (list) {
                         alert("새로운 댓글이 추가되었습니다.");
