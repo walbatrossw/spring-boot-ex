@@ -20,6 +20,8 @@ import java.sql.Timestamp;
 @Table(name="tbl_article")
 public class Article {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;                    // 게시글 번호
