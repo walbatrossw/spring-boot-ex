@@ -43,7 +43,7 @@ public class ArticleRepositoryTests {
 
     }
 
-    // 더미 데이터 입력 테스트
+    // 게시글 입력 테스트
     @Test
     public void testInsert() {
         Article article = new Article();
@@ -81,6 +81,7 @@ public class ArticleRepositoryTests {
         articleRepository.deleteById(1L);
     }
 
+    // 게시글 더미 데이터 입력
     @Test
     public void testInsertArticles() {
         for (int i = 1; i <= 200; i++) {
@@ -92,42 +93,49 @@ public class ArticleRepositoryTests {
         }
     }
 
+    // 제목으로 조회 테스트 : 쿼리 메서드
     @Test
     public void testByTitle() {
         articleRepository.findArticleByTitle("1번째 제목")
                 .forEach(article -> System.out.println(article));
     }
 
+    // 작성자로 조회 테스트 : 쿼리 메서드
     @Test
     public void testByWriter() {
         articleRepository.findByWriter("user00")
                 .forEach(article -> System.out.println(article));
     }
 
+    // 작성자 Like 조회 테스트 : 쿼리 메서드
     @Test
     public void testByWriterContaining() {
         Collection<Article> results =  articleRepository.findByWriterContaining("05");
         results.forEach(article -> System.out.println(article));
     }
 
+    // 제목 Like 조회 테스트 : 쿼리 메서드
     @Test
     public void testByTitleOrContent() {
         Collection<Article> results = articleRepository.findByTitleContainingOrContentContaining("01", "1");
         results.forEach(article -> System.out.println(article));
     }
 
+    // 제목 AND 게시글 번호 테스트 : 쿼리 메서드
     @Test
     public void testByTitleAndId() {
         Collection<Article> results = articleRepository.findByTitleContainingAndIdGreaterThan("5", 50L);
         results.forEach(article -> System.out.println(article));
     }
 
+    // 게시글 번호 조회 및 정렬(역순) 테스트 : 쿼리 메서드
     @Test
     public void testIdOrderBy() {
         Collection<Article> results = articleRepository.findByIdGreaterThanOrderByIdDesc(90L);
         results.forEach(article -> System.out.println(article));
     }
 
+    // 게시글 페이징 테스트 : 쿼리 메서드
     @Test
     public void testIdOrderByPaging() {
         Pageable paging = PageRequest.of(0, 10);
@@ -135,6 +143,7 @@ public class ArticleRepositoryTests {
         results.forEach(article -> System.out.println(article));
     }
 
+    // 게시글 페이징 정렬 테스트 : 쿼리 메서드
     @Test
     public void testIdPagingSort() {
         Pageable paging = new PageRequest(0, 10, Sort.Direction.ASC, "id");
@@ -149,37 +158,44 @@ public class ArticleRepositoryTests {
         list.forEach(article -> System.out.println(article));
     }
 
+    // 제목으로 조회 테스트 : @Query 사용
     @Test
     public void testByTitle2() {
         articleRepository.findByTitle("17").forEach(article -> System.out.println(article));
     }
 
+    // 내용으로 조회 테스트 : @Query, @Param 사용
     @Test
     public void testByContent() {
         articleRepository.findByContent("17").forEach(article -> System.out.println(article));
     }
 
+    // 작성자로 조회 테스트 : @Query, #{#entity}
     @Test
     public void testByWriter2() {
         articleRepository.findByWriter2("user00").forEach(article -> System.out.println(article));
     }
 
+    // 제목으로 정렬 테스트 : @Query, 필요한 칼럼만을 추출
     @Test
     public void testByTitle17() {
         articleRepository.findByTitle2("17").forEach(arr -> System.out.println(Arrays.toString(arr)));
     }
 
+    // 제목으로 조회 테스트 : @Query, nativeQuery 사용
     @Test
     public void testByTitle18() {
         articleRepository.findByTitle3("18").forEach(arr -> System.out.println(Arrays.toString(arr)));
     }
 
+    // @Query와 페이징 처리
     @Test
     public void testByPaging() {
         Pageable pageable = PageRequest.of(0, 10);
         articleRepository.findByPage(pageable).forEach(article -> System.out.println(article));
     }
 
+    // Querydsl Predicate
     @Test
     public void testPredicate() {
         String type = "t";
