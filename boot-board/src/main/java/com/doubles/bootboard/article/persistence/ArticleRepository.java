@@ -30,16 +30,16 @@ public interface ArticleRepository extends CrudRepository<Article, Long>, Queryd
     public Collection<Article> findByTitleContainingOrContentContaining(String title, String content);
 
     // 제목 like and 게시글 번호 조회
-    public Collection<Article> findByTitleContainingAndIdGreaterThan(String keyword, Long id);
+    public Collection<Article> findByTitleContainingAndArticleIdGreaterThan(String keyword, Long articleId);
 
     // 게시글 번호 조회, 역순 정렬
-    public Collection<Article> findByIdGreaterThanOrderByIdDesc(Long id);
+    public Collection<Article> findByArticleIdGreaterThanOrderByArticleIdDesc(Long articleId);
 
     // 게시글 번호 조회, 역순 정렬, 페이징
-    public List<Article> findByIdGreaterThanOrderByIdDesc(Long id, Pageable paging);
+    public List<Article> findByArticleIdGreaterThanOrderByArticleIdDesc(Long articleId, Pageable paging);
 
     // 게시글 번호 조회, 페이징
-    public Page<Article> findByIdGreaterThan(Long id, Pageable paging);
+    public Page<Article> findByArticleIdGreaterThan(Long id, Pageable paging);
 
     // --- @Query 애너테이션 ---
 
@@ -56,15 +56,15 @@ public interface ArticleRepository extends CrudRepository<Article, Long>, Queryd
     public List<Article> findByWriter2(String writer);
 
     // 필요한 칼럼만 추출할 경우
-    @Query("SELECT a.id, a.title, a.writer, a.regdate FROM Article a WHERE a.title LIKE %?1% AND a.id > 0 ORDER BY a.id DESC")
+    @Query("SELECT a.articleId, a.title, a.writer, a.regDate FROM Article a WHERE a.title LIKE %?1% AND a.articleId > 0 ORDER BY a.id DESC")
     public List<Object[]> findByTitle2(String title);
 
     // nativeQuery 사용
-    @Query(value = "SELECT id, title, writer FROM tbl_article WHERE title like CONCAT('%', ?1, '%') AND id > 0 ORDER BY id DESC", nativeQuery = true)
+    @Query(value = "SELECT articleId, title, writer FROM tbl_article WHERE title like CONCAT('%', ?1, '%') AND articleId > 0 ORDER BY articleId DESC", nativeQuery = true)
     public List<Object[]> findByTitle3(String title);
 
     // @Query와 Paging 처리/정렬
-    @Query("SELECT a FROM Article a WHERE a.id > 0 ORDER BY a.id DESC")
+    @Query("SELECT a FROM Article a WHERE a.articleId > 0 ORDER BY a.articleId DESC")
     public List<Article> findByPage(Pageable pageable);
 
 

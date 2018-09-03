@@ -124,14 +124,14 @@ public class ArticleRepositoryTests {
     // 제목 AND 게시글 번호 테스트 : 쿼리 메서드
     @Test
     public void testByTitleAndId() {
-        Collection<Article> results = articleRepository.findByTitleContainingAndIdGreaterThan("5", 50L);
+        Collection<Article> results = articleRepository.findByTitleContainingAndArticleIdGreaterThan("5", 50L);
         results.forEach(article -> System.out.println(article));
     }
 
     // 게시글 번호 조회 및 정렬(역순) 테스트 : 쿼리 메서드
     @Test
     public void testIdOrderBy() {
-        Collection<Article> results = articleRepository.findByIdGreaterThanOrderByIdDesc(90L);
+        Collection<Article> results = articleRepository.findByArticleIdGreaterThanOrderByArticleIdDesc(90L);
         results.forEach(article -> System.out.println(article));
     }
 
@@ -139,7 +139,7 @@ public class ArticleRepositoryTests {
     @Test
     public void testIdOrderByPaging() {
         Pageable paging = PageRequest.of(0, 10);
-        Collection<Article> results = articleRepository.findByIdGreaterThanOrderByIdDesc(0L, paging);
+        Collection<Article> results = articleRepository.findByArticleIdGreaterThanOrderByArticleIdDesc(0L, paging);
         results.forEach(article -> System.out.println(article));
     }
 
@@ -147,7 +147,7 @@ public class ArticleRepositoryTests {
     @Test
     public void testIdPagingSort() {
         Pageable paging = new PageRequest(0, 10, Sort.Direction.ASC, "id");
-        Page<Article> results = articleRepository.findByIdGreaterThan(0L, paging);
+        Page<Article> results = articleRepository.findByArticleIdGreaterThan(0L, paging);
 
         System.out.println("PAGE SIZE : " + results.getSize());
         System.out.println("TOTAL PAGES : " + results.getTotalPages());

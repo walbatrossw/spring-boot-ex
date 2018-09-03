@@ -17,22 +17,20 @@ import java.sql.Timestamp;
 @Setter
 @ToString
 @Entity
-@Table(name="tbl_article")
+@Table(name="tbl_articles")
 public class Article {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;                    // 게시글 번호
-    private String title;               // 게시글 제목
-    private String writer;              // 게시글 작성자
-    private String content;             // 게시글 내용
+    private Long articleId; // 게시글 번호
+    private String title;   // 게시글 제목
+    private String writer;  // 게시글 작성자
+    private String content; // 게시글 내용
 
     @CreationTimestamp
-    private Timestamp regdate;          // 게시글 등록일자
+    private Timestamp regDate;  // 게시글 등록일자
 
     @UpdateTimestamp
-    private Timestamp updatedate;       // 게시글 수정일자
+    private Timestamp updateDate;   // 게시글 수정일자
 
 }
