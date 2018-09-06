@@ -1,4 +1,4 @@
-package com.doubles.bootboard.member.domain;
+package com.doubles.bootboard.tutorials.member.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.doubles.bootboard.tutorials.controller;
+package com.doubles.bootboard.tutorials.sample.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

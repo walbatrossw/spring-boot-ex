@@ -1,7 +1,7 @@
-package com.doubles.bootboard.tutorials.controller;
+package com.doubles.bootboard.tutorials.sample.controller;
 
-import com.doubles.bootboard.tutorials.domain.SampleVO;
-import com.doubles.bootboard.tutorials.domain.SampleVO2;
+import com.doubles.bootboard.tutorials.sample.domain.SampleVO;
+import com.doubles.bootboard.tutorials.sample.domain.SampleVO2;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

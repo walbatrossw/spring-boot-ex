@@ -1,9 +1,9 @@
-package com.doubles.bootboard.member;
+package com.doubles.bootboard.tutorials.member;
 
-import com.doubles.bootboard.member.domain.Member;
-import com.doubles.bootboard.member.domain.Profile;
-import com.doubles.bootboard.member.persistence.MemberRepository;
-import com.doubles.bootboard.member.persistence.ProfileRepository;
+import com.doubles.bootboard.tutorials.member.domain.Member;
+import com.doubles.bootboard.tutorials.member.domain.Profile;
+import com.doubles.bootboard.tutorials.member.persistence.MemberRepository;
+import com.doubles.bootboard.tutorials.member.persistence.ProfileRepository;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;

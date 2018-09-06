@@ -1,6 +1,6 @@
-package com.doubles.bootboard.article.persistence;
+package com.doubles.bootboard.tutorials.article.persistence;
 
-import com.doubles.bootboard.article.domain.Article;
+import com.doubles.bootboard.tutorials.article.domain.Article;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

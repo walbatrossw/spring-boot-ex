@@ -1,6 +1,6 @@
-package com.doubles.bootboard.member.persistence;
+package com.doubles.bootboard.tutorials.member.persistence;
 
-import com.doubles.bootboard.member.domain.Member;
+import com.doubles.bootboard.tutorials.member.domain.Member;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

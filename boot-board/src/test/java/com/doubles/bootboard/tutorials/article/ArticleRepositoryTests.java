@@ -1,8 +1,8 @@
-package com.doubles.bootboard.article;
+package com.doubles.bootboard.tutorials.article;
 
-import com.doubles.bootboard.article.domain.Article;
-import com.doubles.bootboard.article.domain.QArticle;
-import com.doubles.bootboard.article.persistence.ArticleRepository;
+import com.doubles.bootboard.tutorials.article.domain.Article;
+import com.doubles.bootboard.tutorials.article.domain.QArticle;
+import com.doubles.bootboard.tutorials.article.persistence.ArticleRepository;
 import com.querydsl.core.BooleanBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -208,7 +207,7 @@ public class ArticleRepositoryTests {
             builder.and(article.title.like("%" + keyword + "%"));
         }
 
-        builder.and(article.id.gt(0L));
+        builder.and(article.articleId.gt(0L));
 
         Pageable pageable = PageRequest.of(0, 10);
         Page<Article> result = articleRepository.findAll(builder, pageable);

@@ -1,4 +1,4 @@
-package com.doubles.bootboard.tutorials.domain;
+package com.doubles.bootboard.tutorials.sample.domain;
 
 import lombok.Getter;
 import lombok.Setter;
