@@ -17,7 +17,7 @@
 - Lombok 라이브러리
 - Controller 테스트
 
-## 3. demo2 내용 : Spring Data JPA
+## 3. bootdemo2 내용 : Spring Data JPA
 
 - SpringBoot 버전 : 1.5.17.RELEASE
 - JPA 간단 요약 정리
@@ -37,3 +37,9 @@
     - Page<T> 타입
 - @Query 애너테이션
 - Querydsl 동적 SQL
+
+## 5. bootdemo4 내용 : JPA 연관 관계
+
+## 6. bootdemo5 내용 : Thymeleaf 사용
+
+## 7. bootdemo6 내용

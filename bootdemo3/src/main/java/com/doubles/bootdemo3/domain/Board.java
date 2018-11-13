@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 @Table(name = "tbl_boards")
 public class Board {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long bno;
