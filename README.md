@@ -40,6 +40,13 @@
 
 ## 5. bootdemo4 내용 : JPA 연관 관계
 
+- Springboot 버전 : 2.1.0.RELEASE
+- 연관관계 처리
+    - 단방향
+    - 양방향
+
 ## 6. bootdemo5 내용 : Thymeleaf 사용
+
+
 
 ## 7. bootdemo6 내용
