@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "files")
 @Entity
 @Table(name = "tbl_pds")
 @EqualsAndHashCode(of = "pid")
