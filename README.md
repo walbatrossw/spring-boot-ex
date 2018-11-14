@@ -47,6 +47,21 @@
 
 ## 6. bootdemo5 내용 : Thymeleaf 사용
 
+- 객체를 화면에 출력하기
+- 리스트를 화면에 출력하기
+- 지역변수 선언, if ~ unless 제어처리
+- 인라인 스타일로 Thymeleaf 사용
+- Thymeleaf 유틸 객체
+    - 날짜 관련
+    - 숫자 관련
+    - 문자 관련
+- Thymeleaf 링크 처리
+- Thymeleaf 레이아웃 기능
 
+## 7. bootdemo6 내용 : 게시판 게시물 CRUD
 
-## 7. bootdemo6 내용
+## 8. bootdemo7 내용 : 게시판 REST방식의 댓글 처리 JPA처리
+
+## 8. bootdemo8 내용 : 스프링 웹 시큐리티
+
+## 9. bootdemo9 내용 : 게시판에 스프링 웹 시큐리티 적용하기

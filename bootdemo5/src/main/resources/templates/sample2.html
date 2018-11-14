@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <!--<h1 th:text="${memberVO}">thymeleaf test page</h1>-->
+
+    <div th:utext='${"<h3>" + memberVO.mid + "</h3>"}'></div>
+
+    <div th:text='${"<h3>" + memberVO.mid + "</h3>"}'></div>
+
+</body>
+</html>

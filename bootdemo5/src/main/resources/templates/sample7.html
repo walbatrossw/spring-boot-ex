@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8" content="text/html" http-equiv="Content-Type">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1 th:text="${now}"></h1>
+    <h1 th:text="${price}"></h1>
+    <h1 th:text="${title}"></h1>
+    <h1 th:text="${options}"></h1>
+
+    <!--날짜 관련-->
+    <h2 th:text="${#dates.format(now, 'yyyy-MM-dd')}"></h2>
+    <div th:with="timeValue=${#dates.createToday()}">
+        <p>
+            [[${#dates.createToday()}]]
+        </p>
+    </div>
+
+    <!--숫자 관련-->
+    <h2 th:text="${#numbers.formatInteger(price, 3, 'COMMA')}"></h2>
+    <div th:with="priceValue=99.87654">
+        <p th:text="${#numbers.formatInteger(priceValue, 3, 'COMMA')}"></p>
+        <p th:text="${#numbers.formatDecimal(priceValue, 5, 10, 'POINT')}"></p>
+    </div>
+
+    <!--문자 관련-->
+    <h1 th:text="${title}"></h1>
+    <span th:utext="${#strings.replace(title, 's', '<b>s</b>')}"></span>
+    <ul>
+        <li th:each="str:${#strings.listSplit(title, ' ')}">
+            [[${str}]]
+        </li>
+    </ul>
+
+</body>
+</html>
