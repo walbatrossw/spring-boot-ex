@@ -9,6 +9,7 @@
 - Java 8
 - MySQL
 - JPA
+- Spring Security
 
 ## 2. bootdemo1 내용 : 프로젝트 생성 및 lombok
 
@@ -59,6 +60,12 @@
 - Thymeleaf 레이아웃 기능
 
 ## 7. bootdemo6 내용 : 게시판 게시물 CRUD
+
+- Spring MVC를 이용한 웹페이지 처리
+- 
+- 페이징 처리
+- 등록 기능 처리
+- 조회 기능 처리
 
 ## 8. bootdemo7 내용 : 게시판 REST방식의 댓글 처리 JPA처리
 
