@@ -1,10 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside th:fragment="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+    <a href="/index" class="brand-link">
+        <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Boot Demo 6</span>
     </a>
 
     <!-- Sidebar -->
@@ -12,10 +15,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">로그인 사용자</a>
             </div>
         </div>
 
@@ -25,25 +28,25 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview menu-open">
+                <li class="nav-item has-treeview">
                     <a href="#" class="nav-link active">
-                        <i class="nav-icon fa fa-dashboard"></i>
+                        <i class="nav-icon fa fa-clipboard"></i>
                         <p>
-                            Starter Pages
+                            게시판
                             <i class="right fa fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Active Page</p>
+                            <a href="/boards/list" class="nav-link">
+                                <i class="fa fa-list"></i>
+                                <p>목록</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-circle-o nav-icon"></i>
-                                <p>Inactive Page</p>
+                            <a href="/boards/write" class="nav-link">
+                                <i class="fa fa-pencil"></i>
+                                <p>글 작성</p>
                             </a>
                         </li>
                     </ul>
@@ -52,7 +55,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-th"></i>
                         <p>
-                            Simple Link
+
                             <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
@@ -63,3 +66,5 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+</html>
