@@ -2,6 +2,7 @@ package com.doubles.bootdemo6.board.controller;
 
 import com.doubles.bootdemo6.board.domain.WebBoard;
 import com.doubles.bootdemo6.board.persistence.WebBoardRepository;
+import com.doubles.bootdemo6.board.vo.PageMaker;
 import com.doubles.bootdemo6.board.vo.PageVO;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,9 @@ public class WebBoardController {
         log.info("" + page);
         log.info("" + result);
 
-        model.addAttribute("result", result);
+        log.info("TOTAL PAGE NUMBER : " + result.getTotalPages());
+
+        model.addAttribute("result", new PageMaker<>(result));
     }
 
 

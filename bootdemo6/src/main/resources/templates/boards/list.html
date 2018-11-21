@@ -31,13 +31,13 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">게시글 목록</h3>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-body" th:with="result=${result.result}">
                             <table class="table table-bordered">
                                 <tr>
                                     <th style="width: 60px">번호</th>
@@ -56,11 +56,17 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                             <ul class="pagination pagination-sm m-0 float-right">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                <li class="page-item" th:if="${result.prevPage}">
+                                    <a class="page-link" href="#">이전 [[${result.prevPage.pageNumber} + 1]]</a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${p.pageNumber == result.currentPageNum - 1} ? active : '' "
+                                    th:each="p:${result.pageList}">
+                                    <a class="page-link" href="#">[[${p.pageNumber} + 1]]</a>
+                                </li>
+                                <li class="page-item" th:if="${result.nextPage}">
+                                    <a class="page-link" href="#">다음 [[${result.nextPage.pageNumber} + 1]]</a>
+                                </li>
                             </ul>
                         </div>
                     </div>

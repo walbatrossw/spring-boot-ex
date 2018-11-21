@@ -16,15 +16,15 @@ public class PageMaker<T> {
 
     private Page<T> result;
 
-    private Pageable prevPage;
-    private Pageable nextPage;
+    private Pageable prevPage;  // 이전 페이지
+    private Pageable nextPage;  // 다음 페이지
 
-    private int currentPageNum;
+    private int currentPageNum; //
     private int totalPageNum;
 
-    private Pageable currentPage;
+    private Pageable currentPage;   // 현재 페이지 정보
 
-    private List<Pageable> pageList;
+    private List<Pageable> pageList;    // 페이지번호
 
     // 생성자
     public PageMaker(Page<T> result) {
@@ -36,9 +36,12 @@ public class PageMaker<T> {
         this.totalPageNum = result.getTotalPages();
 
         this.pageList = new ArrayList<>();
+
+        calcPages();
     }
 
     private void calcPages() {
+
         int tempEndNum = (int) (Math.ceil(this.currentPageNum / 10.0) * 10);
         int startNum = tempEndNum - 9;
 
@@ -51,6 +54,19 @@ public class PageMaker<T> {
         this.prevPage = startPage.getPageNumber() <= 0 ? null : startPage.previousOrFirst();
 
         log.info("tempEndNum : " + tempEndNum);
+        log.info("total : " + totalPageNum);
+
+        if (this.totalPageNum < tempEndNum) {
+            tempEndNum = this.totalPageNum;
+            this.nextPage = null;
+        }
+
+        for (int i = startNum; i <= tempEndNum; i++) {
+            pageList.add(startPage);
+            startPage = startPage.next();
+        }
+        this.nextPage = startPage.getPageNumber() + 1 < totalPageNum ? startPage : null;
+
     }
 
 }
