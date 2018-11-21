@@ -31,7 +31,41 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">게시글 목록</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th style="width: 60px">번호</th>
+                                    <th>제목</th>
+                                    <th style="width: 120px">작성자</th>
+                                    <th style="width: 200px">작성일자</th>
+                                </tr>
+                                <tr th:each="board:${result.content}">
+                                    <td>[[${board.bno}]]</td>
+                                    <td>[[${board.title}]]</td>
+                                    <td>[[${board.writer}]]</td>
+                                    <td>[[${board.regdate}]]</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content -->
