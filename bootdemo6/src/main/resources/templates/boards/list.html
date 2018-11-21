@@ -57,17 +57,23 @@
                         <div class="card-footer clearfix">
                             <ul class="pagination pagination-sm m-0 float-right">
                                 <li class="page-item" th:if="${result.prevPage}">
-                                    <a class="page-link" href="#">이전 [[${result.prevPage.pageNumber} + 1]]</a>
+                                    <a class="page-link" th:href="${result.prevPage.pageNumber} + 1">이전
+                                        [[${result.prevPage.pageNumber} + 1]]</a>
                                 </li>
                                 <li class="page-item"
                                     th:classappend="${p.pageNumber == result.currentPageNum - 1} ? active : '' "
                                     th:each="p:${result.pageList}">
-                                    <a class="page-link" href="#">[[${p.pageNumber} + 1]]</a>
+                                    <a class="page-link" th:href="${p.pageNumber} + 1">[[${p.pageNumber} + 1]]</a>
                                 </li>
                                 <li class="page-item" th:if="${result.nextPage}">
-                                    <a class="page-link" href="#">다음 [[${result.nextPage.pageNumber} + 1]]</a>
+                                    <a class="page-link" th:href="${result.nextPage.pageNumber} + 1">다음
+                                        [[${result.nextPage.pageNumber} + 1]]</a>
                                 </li>
                             </ul>
+                            <form id='f1' th:action="@{list}" method="get">
+                                <input type='hidden' name='page' th:value=${result.currentPageNum}>
+                                <input type='hidden' name='size' th:value=${result.currentPage.pageSize}>
+                            </form>
                         </div>
                     </div>
                     <!-- /.card -->
@@ -79,11 +85,26 @@
     </div>
     <!-- /.content-wrapper -->
 
+
+
 </div>
 <!-- ./wrapper -->
+<th:block layout:fragment="script">
 
-<!-- REQUIRED SCRIPTS -->
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var formObj = $("#f1");
+            $(".pagination a").click(function (e) {
 
+                e.preventDefault();
+                formObj.find('[name="page"]').val($(this).attr('href'));
+                formObj.submit();
+            });
+        });
+    </script>
+
+</th:block>
 
 </body>
 </html>
+
