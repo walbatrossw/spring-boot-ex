@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -43,9 +44,11 @@ public class WebBoardController {
 //    }
 
     @GetMapping("/list")
-    public void list(PageVO pageVO, Model model) {
+    public void list(@ModelAttribute("pageVO") PageVO pageVO, Model model) {
+
         Pageable page = pageVO.makePageable(0, "bno");
-        Page<WebBoard> result = webBoardRepository.findAll(webBoardRepository.makePredicate(null, null), page);
+        Page<WebBoard> result = webBoardRepository.findAll(
+                webBoardRepository.makePredicate(pageVO.getType(), pageVO.getKeyword()), page);
 
         log.info("" + page);
         log.info("" + result);
