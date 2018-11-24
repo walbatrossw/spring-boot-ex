@@ -54,14 +54,14 @@
                             </table>
                             <hr>
                             <div class="form-inline">
-                                <div class="input-group">
-                                    <select class="form-control" id="searchType">
+                                <div class="input-group input-group-sm">
+                                    <select class="form-control" id="searchType" style="width: 120px">
                                         <option>----</option>
                                         <option>제목</option>
                                         <option>내용</option>
                                         <option>작성자</option>
                                     </select>
-                                    <input type="text" class="form-control" id="searchKeyword">
+                                    <input type="text" class="form-control" id="searchKeyword" style="width: 300px">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-info btn-flat" id="searchBtn">검색</button>
                                     </span>
@@ -72,7 +72,7 @@
                         <div class="card-footer clearfix">
                             <ul class="pagination m-0 float-right">
                                 <li class="page-item" th:if="${result.prevPage}">
-                                    <a class="page-link" th:href="${result.prevPage.pageNumber} + 1">이전
+                                    <a class="page-link" th:href="${result.prevPage.pageNumber} + 1"> 이전
                                         [[${result.prevPage.pageNumber} + 1]]</a>
                                 </li>
                                 <li class="page-item"
@@ -81,7 +81,7 @@
                                     <a class="page-link" th:href="${p.pageNumber} + 1">[[${p.pageNumber} + 1]]</a>
                                 </li>
                                 <li class="page-item" th:if="${result.nextPage}">
-                                    <a class="page-link" th:href="${result.nextPage.pageNumber} + 1">다음
+                                    <a class="page-link" th:href="${result.nextPage.pageNumber} + 1"> 다음
                                         [[${result.nextPage.pageNumber} + 1]]</a>
                                 </li>
                             </ul>
@@ -99,8 +99,6 @@
 
     </div>
     <!-- /.content-wrapper -->
-
-
 
 </div>
 <!-- ./wrapper -->
