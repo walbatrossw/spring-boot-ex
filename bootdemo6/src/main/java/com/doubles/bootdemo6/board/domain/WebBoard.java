@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(of = "bno")
 public class WebBoard {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bno;
