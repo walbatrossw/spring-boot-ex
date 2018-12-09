@@ -79,4 +79,11 @@ public class WebBoardController {
 
         return "redirect:/boards/list";
     }
+
+    // 게시물 조회
+    @GetMapping("/read")
+    public void read(Long bno, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
+        log.info("BNO:" + bno);
+        webBoardRepository.findById(bno).ifPresent(webBoard -> model.addAttribute("webBoard", webBoard));
+    }
 }

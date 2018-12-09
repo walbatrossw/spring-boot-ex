@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout}">
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div layout:fragment="content" class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">조회 페이지</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active"><a href="/main">demo6</a></li>
+                            <li class="breadcrumb-item">boards</li>
+                            <li class="breadcrumb-item">read</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-body p-0">
+                            <div class="mailbox-read-info">
+                                <h5>[[${webBoard.bno}]] - [[${webBoard.title}]]</h5>
+                            </div>
+                            <!-- /.mailbox-read-info -->
+                            <div class="mailbox-read-message">
+                                <div th:remove="tag" th:utext="${webBoard.content}"></div>
+                            </div>
+                            <!-- /.mailbox-read-message -->
+                        </div>
+                        <!-- /.card-body -->
+                        <hr/>
+                        <div class="card-footer bg-white">
+                            <div class="user-block">
+                                <img class="img-circle img-bordered-sm" src="/dist/img/user1-128x128.jpg"
+                                     alt="user image">
+                                <span class="username">
+                                    <a href="#">[[${webBoard.writer}]]</a>
+                                    <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
+                                </span>
+                                <span class="description">[[${webBoard.regdate}]]</span>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="card-footer bg-white">
+                            <div class="float-right">
+                                <a class="btn btn-default" th:href="@{/boards/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${webBoard.bno - 1})}" role="button">
+                                    <i class="fa fa fa-chevron-left"></i> 이전글
+                                </a>
+                                <a class="btn btn-default" th:href="@{/boards/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${webBoard.bno + 1})}" role="button">
+                                    다음글 <i class="fa fa fa-chevron-right"></i>
+                                </a>
+                            </div>
+                            <a class="btn btn-default" th:href="@{/boards/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${webBoard.bno})}" role="button">
+                                <i class="fa fa-edit"></i> 수정 / 삭제
+                            </a>
+                            <a class="btn btn-default" th:href="@{/boards/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, bno=${webBoard.bno})}" role="button">
+                                <i class="fa fa-list"></i> 목록
+                            </a>
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+</div>
+<!-- ./wrapper -->
+
+
+<th:block layout:fragment="script">
+
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+
+</th:block>
+
+</body>
+</html>
+

@@ -25,6 +25,9 @@ public class WebBoard {
 
     private String title;
     private String writer;
+
+    @Lob
+    @Column(columnDefinition = "text")
     private String content;
 
     @CreationTimestamp

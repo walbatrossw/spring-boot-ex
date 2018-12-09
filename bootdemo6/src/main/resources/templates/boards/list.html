@@ -43,7 +43,7 @@
                                 </tr>
                                 <tr th:each="board:${result.content}">
                                     <td>[[${board.bno}]]</td>
-                                    <td>[[${board.title}]]</td>
+                                    <td><a th:href="${board.bno}" class="boardlink">[[${board.title}]]</a></td>
                                     <td>[[${board.writer}]]</td>
                                     <td>[[${board.regdate}]]</td>
                                 </tr>
@@ -57,7 +57,8 @@
                                         <option value="c" th:selected="${pageVO.type} == 'c'">내용</option>
                                         <option value="w" th:selected="${pageVO.type} == 'w'">작성자</option>
                                     </select>
-                                    <input type="text" class="form-control" id="searchKeyword" th:value="${pageVO.keyword}" style="width: 300px">
+                                    <input type="text" class="form-control" id="searchKeyword"
+                                           th:value="${pageVO.keyword}" style="width: 300px">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-info btn-flat" id="searchBtn">검색</button>
                                     </span>
@@ -66,7 +67,8 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            <a class="btn btn-primary" th:href="@{/boards/write}" role="button"><i class="fa fa-pencil"></i> 게시물 작성</a>
+                            <a class="btn btn-primary" th:href="@{/boards/write}" role="button"><i
+                                    class="fa fa-pencil"></i> 게시물 작성</a>
                             <ul class="pagination m-0 float-right">
                                 <li class="page-item" th:if="${result.prevPage}">
                                     <a class="page-link" th:href="${result.prevPage.pageNumber} + 1"> 이전
@@ -109,22 +111,22 @@
 
             var msg = [[${msg}]];
 
-            if(msg == "write success") {
+            if (msg == "write success") {
                 alert("정상적으로 처리되었습니다.");
-                var stateObj = { msg: "" };
+                var stateObj = {msg: ""};
             }
 
         });
 
         $(document).ready(function () {
             var formObj = $("#f1");
-            
+
             $(".pagination a").click(function (e) {
                 e.preventDefault();
                 formObj.find('[name="page"]').val($(this).attr('href'));
                 formObj.submit();
             });
-            
+
             $("#searchBtn").click(function (e) {
                 var typeStr = $("#searchType").find(":selected").val();
                 var keywordStr = $("#searchKeyword").val();
@@ -134,7 +136,16 @@
                 formObj.find("[name='keyword']").val(keywordStr);
                 formObj.find("[name='page']").val("1");
                 formObj.submit();
-            })
+            });
+
+            $(".boardlink").click(function (e) {
+                e.preventDefault();
+                var boardNo = $(this).attr("href");
+                console.log(boardNo);
+                formObj.attr("action", [[@{'/boards/read'}]]);
+                formObj.append("<input type='hidden' name='bno' value='" + boardNo + "'>");
+                formObj.submit();
+            });
         });
 
     </script>
