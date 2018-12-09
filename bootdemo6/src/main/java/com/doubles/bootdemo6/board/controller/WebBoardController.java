@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -43,6 +45,7 @@ public class WebBoardController {
 //
 //    }
 
+    // 게시물 목록
     @GetMapping("/list")
     public void list(@ModelAttribute("pageVO") PageVO pageVO, Model model) {
 
@@ -58,6 +61,22 @@ public class WebBoardController {
         model.addAttribute("result", new PageMaker<>(result));
     }
 
+    // 게시물 작성 페이지
+    @GetMapping("/write")
+    public void write(@ModelAttribute("webBoard") WebBoard webBoard) {
+        log.info("write get");
+    }
 
+    // 게시물 작성 처리
+    @PostMapping("/write")
+    public String write(@ModelAttribute("webBoard") WebBoard webBoard, RedirectAttributes redirectAttributes) {
 
+        log.info("write post");
+        log.info("" + webBoard);
+
+        webBoardRepository.save(webBoard);
+        redirectAttributes.addFlashAttribute("msg", "write success");
+
+        return "redirect:/boards/list";
+    }
 }

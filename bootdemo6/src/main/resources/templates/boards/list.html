@@ -33,10 +33,6 @@
             <div class="container-fluid">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">게시글 목록</h3>
-                        </div>
-                        <!-- /.card-header -->
                         <div class="card-body" th:with="result=${result.result}">
                             <table class="table table-bordered">
                                 <tr>
@@ -54,7 +50,7 @@
                             </table>
                             <hr>
                             <div class="form-inline">
-                                <div class="input-group input-group-sm">
+                                <div class="input-group">
                                     <select class="form-control" id="searchType" style="width: 120px">
                                         <option>----</option>
                                         <option value="t" th:selected="${pageVO.type} == 't'">제목</option>
@@ -70,6 +66,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
+                            <a class="btn btn-primary" th:href="@{/boards/write}" role="button"><i class="fa fa-pencil"></i> 게시물 작성</a>
                             <ul class="pagination m-0 float-right">
                                 <li class="page-item" th:if="${result.prevPage}">
                                     <a class="page-link" th:href="${result.prevPage.pageNumber} + 1"> 이전
@@ -107,6 +104,18 @@
 <th:block layout:fragment="script">
 
     <script th:inline="javascript">
+
+        $(window).on('load', function () {
+
+            var msg = [[${msg}]];
+
+            if(msg == "write success") {
+                alert("정상적으로 처리되었습니다.");
+                var stateObj = { msg: "" };
+            }
+
+        });
+
         $(document).ready(function () {
             var formObj = $("#f1");
             
@@ -127,6 +136,7 @@
                 formObj.submit();
             })
         });
+
     </script>
 
 </th:block>

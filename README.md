@@ -62,7 +62,7 @@
 ## 7. bootdemo6 내용 : 게시판 게시물 CRUD
 
 - Spring MVC를 이용한 웹페이지 처리
-- 
+- Lteadmin 적용
 - 페이징 처리
 - 등록 기능 처리
 - 조회 기능 처리
