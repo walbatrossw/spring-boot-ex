@@ -83,7 +83,51 @@ public class WebBoardController {
     // 게시물 조회
     @GetMapping("/read")
     public void read(Long bno, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
-        log.info("BNO:" + bno);
+        log.info("READ BNO :" + bno);
         webBoardRepository.findById(bno).ifPresent(webBoard -> model.addAttribute("webBoard", webBoard));
+    }
+
+    // 게시물 수정 페이지
+    @GetMapping("/modify")
+    public void modify(Long bno, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
+        log.info("MODIFY BNO : " + bno);
+        webBoardRepository.findById(bno).ifPresent(webBoard -> model.addAttribute("webBoard", webBoard));
+    }
+
+    // 게시물 수정 처리
+    @PostMapping("/modify")
+    public String modify(WebBoard webBoard, PageVO pageVO, RedirectAttributes redirectAttributes) {
+
+        log.info("MODIFY : " + webBoard);
+
+        webBoardRepository.findById(webBoard.getBno()).ifPresent(origin -> {
+            origin.setTitle(webBoard.getTitle());
+            origin.setContent(webBoard.getContent());
+            webBoardRepository.save(origin);
+            redirectAttributes.addFlashAttribute("msg", "modify success");
+            redirectAttributes.addAttribute("bno", origin.getBno());
+        });
+
+        getPages(pageVO, redirectAttributes);
+
+        return "redirect:/boards/read";
+    }
+
+    // 게시물 삭제 처리
+    @PostMapping("/delete")
+    public String delete(Long bno, PageVO pageVO, RedirectAttributes redirectAttributes) {
+        log.info("DELETE BNO : " + bno);
+        webBoardRepository.deleteById(bno);
+        redirectAttributes.addFlashAttribute("msg", "delete success");
+        getPages(pageVO, redirectAttributes);
+
+        return "redirect:/boards/list";
+    }
+
+    private void getPages(PageVO pageVO, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("page", pageVO.getPage());
+        redirectAttributes.addAttribute("size", pageVO.getSize());
+        redirectAttributes.addAttribute("type", pageVO.getType());
+        redirectAttributes.addAttribute("keyword", pageVO.getKeyword());
     }
 }

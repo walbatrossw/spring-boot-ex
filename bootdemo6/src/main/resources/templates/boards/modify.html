@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout}">
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div layout:fragment="content" class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">수정 페이지</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active"><a href="/main">demo6</a></li>
+                            <li class="breadcrumb-item">boards</li>
+                            <li class="breadcrumb-item">modify</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <form id="modForm">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>제목</label>
+                                    <input class="form-control" type="text" name="title" th:value="${webBoard.title}" placeholder="제목을 입력해주세요...">
+                                    <input class="form-control" type="hidden" name="bno" th:value="${webBoard.bno}">
+                                </div>
+                                <div class="form-group">
+                                    <label>내용</label>
+                                    <textarea id="content" name="content" th:text="${webBoard.content}"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>작성자</label>
+                                    <input class="form-control" type="text" name="writer" th:value="${webBoard.writer}" readonly="readonly">
+                                    <input class="form-control" type="hidden" name="size" th:value="${pageVO.size}">
+                                    <input class="form-control" type="hidden" name="type" th:value="${pageVO.type}">
+                                    <input class="form-control" type="hidden" name="page" th:value="${pageVO.page}">
+                                    <input class="form-control" type="hidden" name="keyword" th:value="${pageVO.keyword}">
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <button type="button" class="btn btn-default" id="delBtn">
+                                        <i class="fa fa-trash"></i>
+                                        삭제
+                                    </button>
+                                    <button type="button" class="btn btn-default" id="modBtn">
+                                        <i class="fa fa-edit"></i>
+                                        수정
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </form>
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+</div>
+<!-- ./wrapper -->
+
+
+<th:block layout:fragment="script">
+    <script th:src="@{/plugins/ckeditor/ckeditor.js}"></script>
+    <script th:src="@{/plugins/ckeditor/translations/ko.js}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+
+            ClassicEditor
+                .create(document.querySelector("#content"), {
+                    language: "ko"
+                })
+                .then(function (editor) {
+                })
+                .catch(function (error) {
+                    console.error(error)
+                });
+
+            var formObj = $("#modForm");
+
+            $("#modBtn").click(function () {
+                formObj.attr("action", "/boards/modify");
+                formObj.attr("method", "post");
+                formObj.submit();
+            });
+
+            $("#delBtn").click(function () {
+                formObj.attr("action", "/boards/delete");
+                formObj.attr("method", "post");
+                formObj.submit();
+            });
+
+        });
+    </script>
+
+</th:block>
+
+</body>
+</html>
+

@@ -90,7 +90,14 @@
 
 
     <script th:inline="javascript">
-        $(document).ready(function () {
+        $(window).on('load', function () {
+
+            var msg = [[${msg}]];
+
+            if (msg == "modify success") {
+                alert("정상적으로 게시물이 수정 되었습니다.");
+                var stateObj = {msg: ""};
+            }
 
         });
     </script>
