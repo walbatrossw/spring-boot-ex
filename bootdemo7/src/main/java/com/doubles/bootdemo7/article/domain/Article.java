@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(of = "articleNo")
 public class Article {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleNo;     // 게시물 번호

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head th:replace="fragments/head::head"></head>
+
+    <body id="page-top">
+
+        <nav th:replace="fragments/navbar::navbar"></nav>
+
+        <div id="wrapper">
+
+            <!-- 사이드바 -->
+            <ul th:replace="fragments/sidebar::sidebar"></ul>
+
+            <div id="content-wrapper">
+
+                <!--내용 삽입-->
+                <div class="container-fluid" layout:fragment="content">
+
+                </div>
+
+                <!-- footer -->
+                <footer th:replace="fragments/footer::footer"></footer>
+
+            </div>
+
+        </div>
+
+        <!-- 최상위로 스크롤 버튼-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- 로그아웃 modal -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">로그아웃 버튼을 누르시면 메인페이지로 이동합니다.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                        <a class="btn btn-primary" href="login.html">로그아웃</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+        <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+        <!-- Page level plugin JavaScript-->
+        <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+        <script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
+        <script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script th:src="@{/js/sb-admin.min.js}"></script>
+
+        <!-- Demo scripts for this page-->
+        <script th:src="@{/js/demo/datatables-demo.js}"></script>
+        <script th:src="@{/js/demo/chart-area-demo.js}"></script>
+
+        <!--custom js-->
+        <th:block layout:fragment="script">
+
+        </th:block>
+
+    </body>
+
+</html>
