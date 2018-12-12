@@ -54,7 +54,11 @@ public class ArticleController {
     @PostMapping("/write")
     public String write(@ModelAttribute("articles") Article article, RedirectAttributes redirectAttributes) {
         log.info("write post");
-        return "redirect:/articles";
+        log.info("" + article);
+
+        articleRepository.save(article);
+        redirectAttributes.addFlashAttribute("msg", "write success");
+        return "redirect:/article/list";
     }
 
     // 게시물 조회
