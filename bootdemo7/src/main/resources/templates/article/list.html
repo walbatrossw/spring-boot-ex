@@ -42,23 +42,23 @@
             </div>
             <div class="card-footer bg-white">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-inline">
-                            <div class="input-group">
-                                <select class="form-control" id="searchType" style="width: 120px">
+                    <div class="col-sm-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <select class="custom-select" id="searchType" style="width: 120px">
                                     <option>----</option>
-                                    <option value="t">제목</option>
-                                    <option value="c">내용</option>
-                                    <option value="w">작성자</option>
+                                    <option value="t" th:selected="${pageVO.type} == 't'">제목</option>
+                                    <option value="c" th:selected="${pageVO.type} == 'c'">내용</option>
+                                    <option value="w" th:selected="${pageVO.type} == 'w'">작성자</option>
                                 </select>
-                                <input type="text" class="form-control" id="searchKeyword" style="width: 300px">
-                                <span class="input-group-append">
+                            </div>
+                            <input type="text" class="form-control" id="searchKeyword" th:value="${pageVO.keyword}">
+                            <div class="input-group-append">
                                 <button type="button" class="btn btn-success btn-flat" id="searchBtn"><i class="fa fa-search"></i> 검색</button>
-                            </span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-9">
                         <ul class="pagination justify-content-end">
                             <li class="page-item" th:if="${result.prevPage}">
                                 <a class="page-link" th:href="${result.prevPage.pageNumber} + 1">
@@ -79,9 +79,11 @@
                         </ul>
                     </div>
                 </div>
-                <form id="f1" th:action="@{list}" method="get">
+                <form id="form" th:action="@{/article/list}" method="get">
                     <input type="hidden" name="page" th:value="${result.currentPageNum}">
                     <input type="hidden" name="size" th:value="${result.currentPage.pageSize}">
+                    <input type="hidden" name="type" th:value="${pageVO.type}">
+                    <input type="hidden" name="keyword" th:value="${pageVO.keyword}">
                 </form>
             </div>
 
@@ -106,14 +108,28 @@
             });
 
             $(document).ready(function () {
-                var formObj = $("#f1");
+                
+                var formObj = $("#form");
 
                 $(".pagination a").click(function (e) {
                     e.preventDefault();
                     formObj.find('[name="page"]').val($(this).attr('href'));
                     formObj.submit();
                 });
+                
+                $("#searchBtn").click(function (e) {
 
+                    var typeStr = $("#searchType").find(":selected").val();
+                    var keywordStr = $("#searchKeyword").val();
+
+                    console.log(typeStr, " - ", keywordStr);
+
+                    formObj.find("[name='type']").val(typeStr);
+                    formObj.find("[name='keyword']").val(keywordStr);
+                    formObj.find("[name='page']").val(1);
+
+                    formObj.submit();
+                })
             });
 
         </script>

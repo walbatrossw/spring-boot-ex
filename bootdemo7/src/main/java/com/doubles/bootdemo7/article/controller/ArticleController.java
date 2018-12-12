@@ -34,7 +34,8 @@ public class ArticleController {
     public void getArticles(PageVO pageVO, Model model) {
 
         Pageable page = pageVO.makePageable(0, "articleNo");
-        Page<Article> result = articleRepository.findAll(articleRepository.makePredicate(null, null), page);
+        Page<Article> result = articleRepository.findAll(articleRepository.makePredicate(pageVO.getType(), pageVO.getKeyword()), page);
+
         log.info("" + page);
         log.info("" + result);
         log.info("Total Page Number : " + result.getTotalPages());
