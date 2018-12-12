@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/layout}">
+<th:block layout:fragment="head_title">
+    <title> Boot Demo 7 | Write </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+</th:block>
+<body>
+    <div layout:fragment="content">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">article</a>
+            </li>
+            <li class="breadcrumb-item active">write</li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4><i class="fas fa-edit"></i> 게시물 작성</h4>
+
+            </div>
+            <div class="card-body">
+                <form th:action="@{/article/write}" method="post">
+                    <div class="form-group">
+                        <label for="title">제목</label>
+                        <input class="form-control" id="title" type="text" name="title" th:value="${article.title}" placeholder="제목을 입력해주세요...">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">내용</label>
+                        <textarea id="content" name="content" th:text="${article.content}"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="writer">작성자</label>
+                        <input class="form-control" id="writer" type="text" name="writer" th:value="${article.writer}" placeholder="작성자 이름을 입력해주세요">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer bg-white">
+
+            </div>
+
+        </div>
+    </div>
+
+    <th:block layout:fragment="script">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+        <script th:src="@{/vendor/summernote-lang/summernote-ko-KR.js}"></script>
+
+        <script th:inline="javascript">
+
+            $(document).ready(function () {
+                $('#content').summernote({
+                    lang: 'ko-KR',
+                    placeholder: "내용을 입력해주세요",
+                    tabsize: 2,
+                    height: 500
+                });
+            });
+
+
+        </script>
+
+    </th:block>
+</body>
+</html>

@@ -46,7 +46,7 @@ public class ArticleController {
 
     // 게시물 작성 페이지
     @GetMapping("/write")
-    public void write() {
+    public void write(@ModelAttribute("article") Article article) {
         log.info("write get");
     }
 

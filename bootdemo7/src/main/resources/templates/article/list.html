@@ -16,7 +16,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <h3><i class="fas fa-table"></i> 게시물 리스트</h3>
-                <a class="btn btn-success float-right" href="#" role="button"><i class="fas fa-edit"></i> 글쓰기</a>
+                <a class="btn btn-success float-right" th:href="@{/article/write}" role="button"><i class="fas fa-edit"></i> 글쓰기</a>
             </div>
             <div class="card-body" th:with="result=${result.result}">
                 <div class="table-responsive">
@@ -42,7 +42,7 @@
             </div>
             <div class="card-footer bg-white">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-6">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <select class="custom-select" id="searchType" style="width: 120px">
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <ul class="pagination justify-content-end">
                             <li class="page-item" th:if="${result.prevPage}">
                                 <a class="page-link" th:href="${result.prevPage.pageNumber} + 1">
