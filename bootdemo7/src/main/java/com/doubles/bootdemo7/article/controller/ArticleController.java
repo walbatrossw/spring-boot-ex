@@ -2,9 +2,14 @@ package com.doubles.bootdemo7.article.controller;
 
 import com.doubles.bootdemo7.article.domain.Article;
 import com.doubles.bootdemo7.article.persistence.ArticleRepository;
+import com.doubles.bootdemo7.article.vo.PageMaker;
+import com.doubles.bootdemo7.article.vo.PageVO;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +31,15 @@ public class ArticleController {
 
     // 게시물 목록
     @GetMapping("/list")
-    public void getArticles() {
+    public void getArticles(PageVO pageVO, Model model) {
 
-        log.info("");
-        log.info("list");
+        Pageable page = pageVO.makePageable(0, "articleNo");
+        Page<Article> result = articleRepository.findAll(articleRepository.makePredicate(null, null), page);
+        log.info("" + page);
+        log.info("" + result);
+        log.info("Total Page Number : " + result.getTotalPages());
+
+        model.addAttribute("result", new PageMaker<>(result));
 
     }
 

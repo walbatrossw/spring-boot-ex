@@ -15,45 +15,109 @@
 
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fas fa-table"></i>
-                게시판
+                <h3><i class="fas fa-table"></i> 게시물 리스트</h3>
+                <a class="btn btn-success float-right" href="#" role="button"><i class="fas fa-edit"></i> 글쓰기</a>
             </div>
-            <div class="card-body">
+            <div class="card-body" th:with="result=${result.result}">
                 <div class="table-responsive">
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th style="width: 60px">번호</th>
+                            <th scope="col">제목</th>
+                            <th style="width: 120px">작성자</th>
+                            <th style="width: 200px">작성일자</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
+                        <tr th:each="article:${result.content}">
+                            <th scope="row">[[${article.articleNo}]]</th>
+                            <td>[[${article.title}]]</td>
+                            <td>[[${article.writer}]]</td>
+                            <td>[[${article.regDate}]]</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            <div class="card-footer bg-white">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-inline">
+                            <div class="input-group">
+                                <select class="form-control" id="searchType" style="width: 120px">
+                                    <option>----</option>
+                                    <option value="t">제목</option>
+                                    <option value="c">내용</option>
+                                    <option value="w">작성자</option>
+                                </select>
+                                <input type="text" class="form-control" id="searchKeyword" style="width: 300px">
+                                <span class="input-group-append">
+                                <button type="button" class="btn btn-success btn-flat" id="searchBtn"><i class="fa fa-search"></i> 검색</button>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item" th:if="${result.prevPage}">
+                                <a class="page-link" th:href="${result.prevPage.pageNumber} + 1">
+                                    [[${result.prevPage.pageNumber} + 1]]
+                                    <i class="fa fa-chevron-left"></i> 이전
+                                </a>
+                            </li>
+                            <li class="page-item"
+                                th:classappend="${p.pageNumber == result.currentPageNum - 1} ? active : '' "
+                                th:each="p:${result.pageList}">
+                                <a class="page-link" th:href="${p.pageNumber} + 1">[[${p.pageNumber} + 1]]</a>
+                            </li>
+                            <li class="page-item" th:if="${result.nextPage}">
+                                <a class="page-link" th:href="${result.nextPage.pageNumber} + 1">
+                                    다음 <i class="fa fa-chevron-right"></i> [[${result.nextPage.pageNumber} + 1]]
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <form id="f1" th:action="@{list}" method="get">
+                    <input type="hidden" name="page" th:value="${result.currentPageNum}">
+                    <input type="hidden" name="size" th:value="${result.currentPage.pageSize}">
+                </form>
+            </div>
+
         </div>
     </div>
+
+    <th:block layout:fragment="script">
+
+        <script th:inline="javascript">
+
+            $(window).on('load', function () {
+
+                var msg = [[${msg}]];
+
+                if (msg == "write success") {
+                    alert("정상적으로 게시물이 작성 되었습니다.");
+                    var stateObj = {msg: ""};
+                } else if (msg == "delete success") {
+                    alert("정상적으로 게시물이 삭제 되었습니다.");
+                }
+
+            });
+
+            $(document).ready(function () {
+                var formObj = $("#f1");
+
+                $(".pagination a").click(function (e) {
+                    e.preventDefault();
+                    formObj.find('[name="page"]').val($(this).attr('href'));
+                    formObj.submit();
+                });
+
+            });
+
+        </script>
+
+    </th:block>
 </body>
 </html>
