@@ -67,25 +67,52 @@ public class ArticleController {
 
         articleRepository.findById(articleNo).ifPresent(article -> model.addAttribute("article", article));
         log.info("read");
+
     }
 
     // 게시물 수정 페이지
     @GetMapping("/modify")
-    public void modify(Long articleNo) {
+    public void modify(Long articleNo, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
+
+        articleRepository.findById(articleNo).ifPresent(article -> model.addAttribute("article", article));
         log.info("modify get");
+
     }
 
     // 게시물 수청 처리
     @PostMapping("/modify")
-    public void modify(Article article) {
+    public String modify(Article article, PageVO pageVO, RedirectAttributes redirectAttributes) {
         log.info("modify post");
+
+        articleRepository.findById(article.getArticleNo()).ifPresent(origin -> {
+            origin.setTitle(article.getTitle());
+            origin.setContent(article.getContent());
+            articleRepository.save(origin);
+            redirectAttributes.addFlashAttribute("msg", "modify success");
+            redirectAttributes.addAttribute("articleNo", origin.getArticleNo());
+        });
+
+        redirectAttributes.addAttribute("page", pageVO.getPage());
+        redirectAttributes.addAttribute("size", pageVO.getSize());
+        redirectAttributes.addAttribute("type", pageVO.getType());
+        redirectAttributes.addAttribute("keyword", pageVO.getKeyword());
+
+        return "redirect:/article/read";
     }
 
     // 게시물 삭제 처리
     @PostMapping("/remove")
-    public String remove(Long articleNo) {
-        log.info("remove");
-        return "redirect:/articles";
+    public String remove(Long articleNo, PageVO pageVO, RedirectAttributes redirectAttributes) {
+
+        articleRepository.deleteById(articleNo);
+        redirectAttributes.addFlashAttribute("msg", "remove success");
+        redirectAttributes.addAttribute("page", pageVO.getPage());
+        redirectAttributes.addAttribute("size", pageVO.getSize());
+        redirectAttributes.addAttribute("type", pageVO.getType());
+        redirectAttributes.addAttribute("keyword", pageVO.getKeyword());
+        log.info("REMOVE Article : " + articleNo);
+
+        return "redirect:/article/list";
     }
 
 }

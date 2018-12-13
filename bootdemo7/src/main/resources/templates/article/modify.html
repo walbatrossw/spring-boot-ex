@@ -15,9 +15,9 @@
         </ol>
 
         <div class="card mb-3">
-            <form th:action="@{/article/write}" method="post">
+            <form id="form">
                 <div class="card-header">
-                    <h4><i class="fas fa-edit"></i> 게시물 조회</h4>
+                    <h4><i class="fas fa-edit"></i> 게시물 수정</h4>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -30,18 +30,31 @@
                     </div>
                     <div class="form-group">
                         <label for="writer">작성자</label>
-                        <input class="form-control" id="writer" type="text" name="writer" th:value="${article.writer}" placeholder="작성자 이름을 입력해주세요">
+                        <input class="form-control" id="writer" type="text" name="writer" th:value="${article.writer}" placeholder="작성자 이름을 입력해주세요" readonly>
+                    </div>
+                    <div>
+                        <input class="form-control" type="hidden" name="articleNo" th:value="${article.articleNo}">
+                        <input class="form-control" type="hidden" name="size" th:value="${pageVO.size}">
+                        <input class="form-control" type="hidden" name="type" th:value="${pageVO.type}">
+                        <input class="form-control" type="hidden" name="page" th:value="${pageVO.page}">
+                        <input class="form-control" type="hidden" name="keyword" th:value="${pageVO.keyword}">
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <button type="reset" class="btn btn-danger">
-                        <i class="fas fa-redo"></i>
-                        초기화
+                    <button type="reset" class="btn btn-primary">
+                        <i class="fas fa-list"></i>
+                        목록
                     </button>
-                    <button type="submit" class="btn btn-primary float-right">
-                        <i class="fa fa-save"></i>
-                        저장
-                    </button>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-primary" id="delBtn">
+                            <i class="fa fa-trash"></i>
+                            삭제
+                        </button>
+                        <button type="button" class="btn btn-primary" id="modBtn">
+                            <i class="fa fa-edit"></i>
+                            수정
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -61,6 +74,20 @@
                     placeholder: "내용을 입력해주세요",
                     tabsize: 2,
                     height: 500
+                });
+
+                var formObj = $("#form");
+
+                $("#modBtn").click(function () {
+                    formObj.attr("action", "/article/modify");
+                    formObj.attr("method", "post");
+                    formObj.submit();
+                });
+
+                $("#delBtn").click(function () {
+                    formObj.attr("action", "/article/remove");
+                    formObj.attr("method", "post");
+                    formObj.submit();
                 });
             });
 

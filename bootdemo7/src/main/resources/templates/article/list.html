@@ -15,8 +15,14 @@
 
         <div class="card mb-3">
             <div class="card-header">
-                <h3><i class="fas fa-table"></i> 게시물 리스트</h3>
-                <a class="btn btn-success float-right" th:href="@{/article/write}" role="button"><i class="fas fa-edit"></i> 글쓰기</a>
+                <div class="row">
+                    <div class="col-8">
+                        <h3><i class="fas fa-table"></i> 게시물 리스트</h3>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-success float-right" th:href="@{/article/write}" role="button"><i class="fas fa-edit"></i> 글쓰기</a>
+                    </div>
+                </div>
             </div>
             <div class="card-body" th:with="result=${result.result}">
                 <div class="table-responsive">
@@ -101,7 +107,7 @@
                 if (msg == "write success") {
                     alert("정상적으로 게시물이 작성 되었습니다.");
                     var stateObj = {msg: ""};
-                } else if (msg == "delete success") {
+                } else if (msg == "remove success") {
                     alert("정상적으로 게시물이 삭제 되었습니다.");
                 }
 
