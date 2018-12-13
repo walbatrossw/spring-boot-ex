@@ -32,9 +32,9 @@
                         <tbody>
                         <tr th:each="article:${result.content}">
                             <th scope="row">[[${article.articleNo}]]</th>
-                            <td>[[${article.title}]]</td>
+                            <td><a th:href="${article.articleNo}" class="articleLink">[[${article.title}]]</a></td>
                             <td>[[${article.writer}]]</td>
-                            <td>[[${article.regDate}]]</td>
+                            <td>[[${#dates.format(article.regDate, 'yyyy-MM-dd HH:mm')}]]</td>
                         </tr>
                         </tbody>
                     </table>
@@ -128,6 +128,14 @@
                     formObj.find("[name='keyword']").val(keywordStr);
                     formObj.find("[name='page']").val(1);
 
+                    formObj.submit();
+                });
+
+                $(".articleLink").click(function (e) {
+                    e.preventDefault();
+                    var articleNo = $(this).attr("href");
+                    formObj.attr("action", [[@{'/article/read'}]]);
+                    formObj.append("<input type='hidden' name='articleNo' value='"+articleNo+"'>");
                     formObj.submit();
                 })
             });

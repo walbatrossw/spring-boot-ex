@@ -63,7 +63,9 @@ public class ArticleController {
 
     // 게시물 조회
     @GetMapping("/read")
-    public void read() {
+    public void read(Long articleNo, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
+
+        articleRepository.findById(articleNo).ifPresent(article -> model.addAttribute("article", article));
         log.info("read");
     }
 

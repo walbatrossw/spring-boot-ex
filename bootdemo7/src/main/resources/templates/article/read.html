@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/layout}">
+<th:block layout:fragment="head_title">
+    <title> Boot Demo 7 | Read </title>
+</th:block>
+<body>
+    <div layout:fragment="content">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">article</a>
+            </li>
+            <li class="breadcrumb-item active">read</li>
+        </ol>
+
+        <div class="card mb-3">
+            <form th:action="@{/article/write}" method="post">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <h5><i class="far fa-edit"></i> [[${article.title}]]</h5>
+                        </div>
+                        <div class="col-4">
+                            <h6><span class="float-right"><i class="far fa-clock"></i> [[${#dates.format(article.regDate, 'yyyy-MM-dd HH:mm')}]]</span></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div th:remove="tag" th:utext="${article.content}"></div>
+                </div>
+                <div class="card-footer">
+                    <a href="#"><i class="fa fa-user"></i> [[${article.writer}]]</a>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="float-right">
+                        <a class="btn btn-primary" th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo - 1})}" role="button">
+                            <i class="fa fa fa-chevron-left"></i> 이전글
+                        </a>
+                        <a class="btn btn-primary" th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo + 1})}" role="button">
+                            다음글 <i class="fa fa fa-chevron-right"></i>
+                        </a>
+                    </div>
+                    <a class="btn btn-primary" th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}" role="button">
+                        <i class="fa fa-edit"></i> 수정 / 삭제
+                    </a>
+                    <a class="btn btn-primary" th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}" role="button">
+                        <i class="fa fa-list"></i> 목록
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <th:block layout:fragment="script">
+
+        <script th:inline="javascript">
+
+
+        </script>
+
+    </th:block>
+</body>
+</html>
