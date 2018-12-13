@@ -1,76 +1,185 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout}">
 <th:block layout:fragment="head_title">
     <title> Boot Demo 7 | Read </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
 </th:block>
 <body>
-    <div layout:fragment="content">
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="#">article</a>
-            </li>
-            <li class="breadcrumb-item active">read</li>
-        </ol>
+<div layout:fragment="content">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">article</a>
+        </li>
+        <li class="breadcrumb-item active">read</li>
+    </ol>
 
-        <div class="card mb-3">
-            <form th:action="@{/article/write}" method="post">
-                <div class="card-header">
-                    <h4><i class="fas fa-file"></i> 게시물 조회</h4>
-                </div>
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-8">
-                            <h5><i class="far fa-file"></i> [[${article.title}]]</h5>
-                        </div>
-                        <div class="col col-4  small text-muted">
-                            <span class="float-right"><i class="far fa-clock"></i> 작성일자: [[${#dates.format(article.regDate, 'yyyy-MM-dd HH:mm')}]]</span>
-                        </div>
+    <div class="card mb-3">
+        <form th:action="@{/article/write}" method="post">
+            <div class="card-header">
+                <h4><i class="fas fa-file"></i> 게시물 조회</h4>
+            </div>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-8">
+                        <h5><i class="far fa-file"></i> [[${article.title}]]</h5>
+                    </div>
+                    <div class="col col-4  small text-muted">
+                        <span class="float-right"><i class="far fa-clock"></i> 작성일자: [[${#dates.format(article.regDate, 'yyyy-MM-dd HH:mm')}]]</span>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div th:remove="tag" th:utext="${article.content}"></div>
-                </div>
-                <div class="card-footer">
-                    <a href="#"><i class="fa fa-user"></i> [[${article.writer}]]</a>
-                </div>
-                <div class="card-footer bg-white">
-                    <div class="float-right">
-                        <a class="btn btn-primary" th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo - 1})}" role="button">
-                            <i class="fa fa fa-chevron-left"></i> 이전글
-                        </a>
-                        <a class="btn btn-primary" th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo + 1})}" role="button">
-                            다음글 <i class="fa fa fa-chevron-right"></i>
-                        </a>
-                    </div>
-                    <a class="btn btn-primary" th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}" role="button">
-                        <i class="fa fa-edit"></i> 수정 / 삭제
+            </div>
+            <div class="card-body">
+                <div th:remove="tag" th:utext="${article.content}"></div>
+            </div>
+            <div class="card-footer">
+                <a href="#"><i class="fa fa-user"></i> [[${article.writer}]]</a>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="float-right">
+                    <a class="btn btn-primary"
+                       th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo - 1})}"
+                       role="button">
+                        <i class="fa fa fa-chevron-left"></i> 이전글
                     </a>
-                    <a class="btn btn-primary" th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}" role="button">
-                        <i class="fa fa-list"></i> 목록
+                    <a class="btn btn-primary"
+                       th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo + 1})}"
+                       role="button">
+                        다음글 <i class="fa fa fa-chevron-right"></i>
                     </a>
                 </div>
-            </form>
-        </div>
+                <a class="btn btn-primary"
+                   th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
+                   role="button">
+                    <i class="fa fa-edit"></i> 수정 / 삭제
+                </a>
+                <a class="btn btn-primary"
+                   th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
+                   role="button">
+                    <i class="fa fa-list"></i> 목록
+                </a>
+            </div>
+        </form>
     </div>
 
-    <th:block layout:fragment="script">
+    <div id="replyEditor">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <textarea class="form-control" id="content" name="content" rows="1"
+                              placeholder="댓글을 입력해주세요"></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="writer" type="text" name="writer" placeholder="작성자 이름을 입력해주세요">
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary btn-sm float-right" id="replyAddBtn"><i
+                        class="fa fa-save"></i> 댓글 저장
+                </button>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div id="replies">
+    </div>
+</div>
 
-        <script th:inline="javascript">
+<th:block layout:fragment="script">
 
-            $(window).on('load', function () {
+    <script th:inline="javascript" th:src="@{/js/reply/reply.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+    <script th:src="@{/vendor/summernote-lang/summernote-ko-KR.js}"></script>
 
-                var msg = [[${msg}]];
 
-                if (msg == "modify success") {
-                    alert("정상적으로 게시물이 수정 되었습니다.");
-                    var stateObj = {msg: ""};
-                }
+    <script th:inline="javascript">
 
+        $(window).on('load', function () {
+
+            var msg = [[${msg}]];
+
+            if (msg == "modify success") {
+                alert("정상적으로 게시물이 수정 되었습니다.");
+                var stateObj = {msg: ""};
+            }
+
+        });
+
+        $(document).ready(function (e) {
+
+            $("#content").click(function () {
+                $("#content").summernote({
+                    lang: 'ko-KR',
+                    placeholder: "댓글을 입력해주세요",
+                    tabsize: 2,
+                    height: 100
+                });
             });
 
-        </script>
+            // 댓글 목록 가져오기
+            (function () {
+                replyManager.getAll([[${article.articleNo}]], printList);
+            })();
 
-    </th:block>
+            // 댓글 목록 출력
+            function printList(list) {
+                var str = "";
+                var replyObj;
+                for (var i = 0; i < list.length; i++) {
+                    replyObj = list[i];
+                    str += "<div class=\"card\">\n" +
+                        "            <div class=\"card-body\">\n" + replyObj.content +
+                        "            </div>\n" +
+                        "            <div class=\"card-footer\">\n" +
+                        "                <div class=\"row\">\n" +
+                        "                    <div class=\"col col-6\">\n" +
+                        "                        <a href=\"#\"><i class=\"fa fa-user\"></i> " + replyObj.writer + "</a>\n" +
+                        "                    </div>\n" +
+                        "                    <div class=\"col col-6 small text-muted\">\n" +
+                        "                        <span class=\"float-right\"><i class=\"far fa-clock\"></i>  작성일자 : " + formatDate(replyObj.regDate) + "</span>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "        </div>" +
+                        "        <hr/>";
+                }
+                $("#replies").html(str);
+            }
+
+            // 작성 시간 포맷 변환
+            function formatDate(timeValue) {
+                var date = new Date(timeValue);
+                return date.getFullYear()
+                    + "-" + (date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1))
+                    + "-" + date.getDate()
+                    + " " + date.getHours()
+                    + ":" + date.getMinutes();
+            }
+
+            // 댓글 추가
+            var articleNo = [[${article.articleNo}]];
+
+            var replyContentObj = $("textarea[name='content']");
+            var replyWriterObj = $("input[name='writer']");
+
+            $("#replyAddBtn").click(function () {
+                var content = replyContentObj.val();
+                var writer = replyWriterObj.val();
+                var obj = {content: content, writer: writer, articleNo: articleNo};
+
+                replyManager.add(obj, function (list) {
+                    printList(list);
+                    alert("새로운 댓글이 추가되었습니다.");
+                    replyContentObj.val("");
+                    replyWriterObj.val("");
+                });
+            });
+        });
+
+    </script>
+
+</th:block>
 </body>
 </html>
