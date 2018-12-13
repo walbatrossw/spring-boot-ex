@@ -67,8 +67,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="form-group">
-                    <textarea class="form-control" id="content" name="content" rows="1"
-                              placeholder="댓글을 입력해주세요"></textarea>
+                    <textarea class="form-control" id="newReply" name="content"></textarea>
                 </div>
                 <div class="form-group">
                     <input class="form-control" id="writer" type="text" name="writer" placeholder="작성자 이름을 입력해주세요">
@@ -83,6 +82,50 @@
     </div>
     <hr/>
     <div id="replies">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col col-6">
+                        <a href="#"><i class="fa fa-user"></i> </a>
+                    </div>
+                    <div class="col col-6">
+                        <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="modal"
+                                data-target="#replyModifyModal"><i class="fas fa-cog"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+            </div>
+            <div class="card-footer">
+                <div class="small text-muted">
+                    <span class="float-right"><i class="far fa-clock"></i> </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="replyModifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">댓글 수정 / 삭제</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" id="replyNo" type="hidden" name="replyNo">
+                    <textarea class="form-control" id="modifyReplyContent" name="content"
+                              placeholder="댓글을 입력해주세요"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">취소</button>
+                    <a class="btn btn-primary btn-sm" href=""><i class="fa fa-edit"></i> 수정</a>
+                    <a class="btn btn-primary btn-sm" href=""><i class="fa fa-trash"></i> 삭제</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -109,13 +152,18 @@
 
         $(document).ready(function (e) {
 
-            $("#content").click(function () {
-                $("#content").summernote({
-                    lang: 'ko-KR',
-                    placeholder: "댓글을 입력해주세요",
-                    tabsize: 2,
-                    height: 100
-                });
+            $("#newReply").summernote({
+                lang: 'ko-KR',
+                placeholder: "댓글을 입력해주세요",
+                tabsize: 2,
+                height: 200
+            });
+
+            $("#modifyReplyContent").summernote({
+                lang: 'ko-KR',
+                placeholder: "댓글을 입력해주세요",
+                tabsize: 2,
+                height: 200
             });
 
             // 댓글 목록 가져오기
@@ -130,20 +178,26 @@
                 for (var i = 0; i < list.length; i++) {
                     replyObj = list[i];
                     str += "<div class=\"card\">\n" +
-                        "            <div class=\"card-body\">\n" + replyObj.content +
+                        "    <div class=\"card-header\">\n" +
+                        "        <div class=\"row\">\n" +
+                        "            <div class=\"col col-6\">\n" +
+                        "                <a href=\"#\"><i class=\"fa fa-user\"></i> " + replyObj.writer + "</a>\n" +
                         "            </div>\n" +
-                        "            <div class=\"card-footer\">\n" +
-                        "                <div class=\"row\">\n" +
-                        "                    <div class=\"col col-6\">\n" +
-                        "                        <a href=\"#\"><i class=\"fa fa-user\"></i> " + replyObj.writer + "</a>\n" +
-                        "                    </div>\n" +
-                        "                    <div class=\"col col-6 small text-muted\">\n" +
-                        "                        <span class=\"float-right\"><i class=\"far fa-clock\"></i>  작성일자 : " + formatDate(replyObj.regDate) + "</span>\n" +
-                        "                    </div>\n" +
-                        "                </div>\n" +
+                        "            <div class=\"col col-6\">\n" +
+                        "                <button type=\"button\" class=\"btn btn-secondary btn-sm float-right\" data-toggle=\"modal\" data-target=\"#replyModifyModal\"><i class=\"fas fa-cog\"></i></button>\n" +
                         "            </div>\n" +
-                        "        </div>" +
-                        "        <hr/>";
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"card-body\">\n"
+                                + replyObj.content +
+                        "    </div>\n" +
+                        "    <div class=\"card-footer\">\n" +
+                        "        <div class=\"small text-muted\">\n" +
+                        "            <span class=\"float-right\"><i class=\"far fa-clock\"></i> " + formatDate(replyObj.regDate) + "</span>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "</div>\n" +
+                        "<hr/>";
                 }
                 $("#replies").html(str);
             }
