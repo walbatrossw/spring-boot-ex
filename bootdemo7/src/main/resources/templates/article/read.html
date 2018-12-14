@@ -82,23 +82,24 @@
     </div>
     <hr/>
     <div id="replies">
-        <div class="card">
+        <div class="card reply">
             <div class="card-header">
                 <div class="row">
                     <div class="col col-6">
-                        <a href="#"><i class="fa fa-user"></i> </a>
+                        <a href="#"><i class="fa fa-user"></i> doubles</a>
                     </div>
                     <div class="col col-6">
-                        <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="modal"
-                                data-target="#replyModifyModal"><i class="fas fa-cog"></i></button>
+                        <button type="button" class="btn btn-secondary btn-sm float-right" id="replyBtn" data-toggle="modal" data-target="#replyModifyModal">
+                            <i class="fas fa-cog"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body contentBody">
             </div>
             <div class="card-footer">
                 <div class="small text-muted">
-                    <span class="float-right"><i class="far fa-clock"></i> </span>
+                    <span class="float-right"><i class="far fa-clock"></i> 2018-12-12</span>
                 </div>
             </div>
         </div>
@@ -159,12 +160,7 @@
                 height: 200
             });
 
-            $("#modifyReplyContent").summernote({
-                lang: 'ko-KR',
-                placeholder: "댓글을 입력해주세요",
-                tabsize: 2,
-                height: 200
-            });
+
 
             // 댓글 목록 가져오기
             (function () {
@@ -177,18 +173,18 @@
                 var replyObj;
                 for (var i = 0; i < list.length; i++) {
                     replyObj = list[i];
-                    str += "<div class=\"card\">\n" +
+                    str += "<div class=\"card reply\">\n" +
                         "    <div class=\"card-header\">\n" +
                         "        <div class=\"row\">\n" +
                         "            <div class=\"col col-6\">\n" +
-                        "                <a href=\"#\"><i class=\"fa fa-user\"></i> " + replyObj.writer + "</a>\n" +
+                        "                <a href=\"#\"><i class=\"fa fa-user-circle\"></i> " + replyObj.writer + "</a>\n" +
                         "            </div>\n" +
                         "            <div class=\"col col-6\">\n" +
-                        "                <button type=\"button\" class=\"btn btn-secondary btn-sm float-right\" data-toggle=\"modal\" data-target=\"#replyModifyModal\"><i class=\"fas fa-cog\"></i></button>\n" +
+                        "                <button type=\"button\" id=\"replyModalBtn\" class=\"btn btn-secondary btn-sm float-right\" data-toggle=\"modal\" data-target=\"#replyModifyModal\"><i class=\"fas fa-cog\"></i></button>\n" +
                         "            </div>\n" +
                         "        </div>\n" +
                         "    </div>\n" +
-                        "    <div class=\"card-body\">\n"
+                        "    <div class=\"card-body content\">\n"
                                 + replyObj.content +
                         "    </div>\n" +
                         "    <div class=\"card-footer\">\n" +
@@ -230,6 +226,25 @@
                     replyWriterObj.val("");
                 });
             });
+
+            $("#replies").on("click", ".reply", function (e) {
+                var a = $(this).find(".content").text();
+                console.log(a);
+                $("#modifyReplyContent").val(a).summernote({
+                    lang: 'ko-KR',
+                    placeholder: "댓글을 입력해주세요",
+                    tabsize: 2,
+                    height: 200
+                });
+            });
+
+            // $("#modifyReplyContent").summernote({
+            //     lang: 'ko-KR',
+            //     placeholder: "댓글을 입력해주세요",
+            //     tabsize: 2,
+            //     height: 200
+            // });
+
         });
 
     </script>
