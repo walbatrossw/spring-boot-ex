@@ -30,17 +30,19 @@
                         <thead class="thead-dark">
                         <tr>
                             <th style="width: 60px">번호</th>
-                            <th scope="col">제목</th>
+                            <th>제목</th>
+                            <th style="width: 100px">댓글수</th>
                             <th style="width: 120px">작성자</th>
                             <th style="width: 200px">작성일자</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="article:${result.content}">
-                            <th scope="row">[[${article.articleNo}]]</th>
-                            <td><a th:href="${article.articleNo}" class="articleLink">[[${article.title}]]</a></td>
-                            <td>[[${article.writer}]]</td>
-                            <td>[[${#dates.format(article.regDate, 'yyyy-MM-dd HH:mm')}]]</td>
+                            <th scope="row">[[${article[0]}]]</th>
+                            <td><a th:href="${article[0]}" class="articleLink">[[${article[1]}]]</a></td>
+                            <td><span class="badge badge-secondary">[[${article[4]}]]</span></td>
+                            <td>[[${article[2]}]]</td>
+                            <td>[[${#dates.format(article[3], 'yyyy-MM-dd HH:mm')}]]</td>
                         </tr>
                         </tbody>
                     </table>

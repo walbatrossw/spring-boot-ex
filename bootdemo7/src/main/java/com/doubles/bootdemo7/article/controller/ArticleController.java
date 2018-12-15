@@ -2,6 +2,7 @@ package com.doubles.bootdemo7.article.controller;
 
 import com.doubles.bootdemo7.article.domain.Article;
 import com.doubles.bootdemo7.article.persistence.ArticleRepository;
+import com.doubles.bootdemo7.article.persistence.CustomCrudRepository;
 import com.doubles.bootdemo7.article.vo.PageMaker;
 import com.doubles.bootdemo7.article.vo.PageVO;
 import lombok.extern.java.Log;
@@ -21,23 +22,30 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/article")
 public class ArticleController {
 
-    private final ArticleRepository articleRepository;
+//    private final ArticleRepository articleRepository;
+//
+//    @Autowired
+//    public ArticleController(ArticleRepository articleRepository) {
+//        this.articleRepository = articleRepository;
+//    }
+
+    private final CustomCrudRepository articleRepository;
 
     @Autowired
-    public ArticleController(ArticleRepository articleRepository) {
+    public ArticleController(CustomCrudRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
-
 
     // 게시물 목록
     @GetMapping("/list")
     public void getArticles(PageVO pageVO, Model model) {
 
         Pageable page = pageVO.makePageable(0, "articleNo");
-        Page<Article> result = articleRepository.findAll(articleRepository.makePredicate(pageVO.getType(), pageVO.getKeyword()), page);
+        Page<Object[]> result = articleRepository.getCustomPage(pageVO.getType(), pageVO.getKeyword(), page);
 
         log.info("" + page);
         log.info("" + result);
+
         log.info("Total Page Number : " + result.getTotalPages());
 
         model.addAttribute("result", new PageMaker<>(result));
@@ -92,10 +100,7 @@ public class ArticleController {
             redirectAttributes.addAttribute("articleNo", origin.getArticleNo());
         });
 
-        redirectAttributes.addAttribute("page", pageVO.getPage());
-        redirectAttributes.addAttribute("size", pageVO.getSize());
-        redirectAttributes.addAttribute("type", pageVO.getType());
-        redirectAttributes.addAttribute("keyword", pageVO.getKeyword());
+        getPages(pageVO, redirectAttributes);
 
         return "redirect:/article/read";
     }
@@ -106,13 +111,16 @@ public class ArticleController {
 
         articleRepository.deleteById(articleNo);
         redirectAttributes.addFlashAttribute("msg", "remove success");
-        redirectAttributes.addAttribute("page", pageVO.getPage());
-        redirectAttributes.addAttribute("size", pageVO.getSize());
-        redirectAttributes.addAttribute("type", pageVO.getType());
-        redirectAttributes.addAttribute("keyword", pageVO.getKeyword());
+        getPages(pageVO, redirectAttributes);
         log.info("REMOVE Article : " + articleNo);
 
         return "redirect:/article/list";
     }
 
+    private void getPages(PageVO pageVO, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("page", pageVO.getPage());
+        redirectAttributes.addAttribute("size", pageVO.getSize());
+        redirectAttributes.addAttribute("type", pageVO.getType());
+        redirectAttributes.addAttribute("keyword", pageVO.getKeyword());
+    }
 }
