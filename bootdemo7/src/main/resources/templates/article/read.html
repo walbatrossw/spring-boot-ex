@@ -65,6 +65,9 @@
 
     <div id="replyEditor">
         <div class="card">
+            <div class="card-header">
+                <h6><i class="fas fa-pencil"></i> 댓글 작성</h6>
+            </div>
             <div class="card-body">
                 <div class="form-group">
                     <textarea class="form-control" id="newReply" name="content"></textarea>
@@ -82,48 +85,39 @@
     </div>
     <hr/>
     <div id="replies">
-        <div class="card reply">
+<div class="card reply">
             <div class="card-header">
                 <div class="row">
                     <div class="col col-6">
-                        <a href="#"><i class="fa fa-user"></i> doubles</a>
+                        <a href="#"><i class="fa fa-user"></i> </a>
                     </div>
                     <div class="col col-6">
-                        <button type="button" class="btn btn-secondary btn-sm float-right" id="replyBtn" data-toggle="modal" data-target="#replyModifyModal">
-                            <i class="fas fa-cog"></i>
-                        </button>
+                        <div class="btn-group float-right">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" id="replyModBtn" href="#"><i class="fa fa-edit"></i> 수정</a>
+                                <a class="dropdown-item" id="replyDelBtn" href="#"><i class="fa fa-trash"></i> 삭제</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-body contentBody">
+            <div class="card-body">
+                <div class="form-group contentBody">
+
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="replyNo" type="hidden" name="replyNo" value=""/>
+                </div>
+                <div class="form-group btnArea">
+
+                </div>
             </div>
             <div class="card-footer">
                 <div class="small text-muted">
-                    <span class="float-right"><i class="far fa-clock"></i> 2018-12-12</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="replyModifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2">댓글 수정 / 삭제</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input class="form-control" id="replyNo" type="hidden" name="replyNo">
-                    <textarea class="form-control" id="modifyReplyContent" name="content"
-                              placeholder="댓글을 입력해주세요"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">취소</button>
-                    <a class="btn btn-primary btn-sm" href=""><i class="fa fa-edit"></i> 수정</a>
-                    <a class="btn btn-primary btn-sm" href=""><i class="fa fa-trash"></i> 삭제</a>
+                    <span class="float-right"><i class="far fa-clock"></i> </span>
                 </div>
             </div>
         </div>
@@ -160,8 +154,6 @@
                 height: 200
             });
 
-
-
             // 댓글 목록 가져오기
             (function () {
                 replyManager.getAll([[${article.articleNo}]], printList);
@@ -174,26 +166,40 @@
                 for (var i = 0; i < list.length; i++) {
                     replyObj = list[i];
                     str += "<div class=\"card reply\">\n" +
-                        "    <div class=\"card-header\">\n" +
-                        "        <div class=\"row\">\n" +
-                        "            <div class=\"col col-6\">\n" +
-                        "                <a href=\"#\"><i class=\"fa fa-user-circle\"></i> " + replyObj.writer + "</a>\n" +
+                        "            <div class=\"card-header\">\n" +
+                        "                <div class=\"row\">\n" +
+                        "                    <div class=\"col col-6\">\n" +
+                        "                        <a href=\"#\"><i class=\"fa fa-user\"></i> " + replyObj.writer + "</a>\n" +
+                        "                    </div>\n" +
+                        "                    <div class=\"col col-6\">\n" +
+                        "                        <div class=\"btn-group float-right\">\n" +
+                        "                            <button class=\"btn btn-secondary btn-sm dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
+                        "                                <i class=\"fa fa-cog\"></i>\n" +
+                        "                            </button>\n" +
+                        "                            <div class=\"dropdown-menu\">\n" +
+                        "                                <a class=\"dropdown-item\" id=\"replyModBtn\" href=\"#\"><i class=\"fa fa-edit\"></i> 수정</a>\n" +
+                        "                                <a class=\"dropdown-item\" id=\"replyDelBtn\" href=\"#\"><i class=\"fa fa-trash\"></i> 삭제</a>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
                         "            </div>\n" +
-                        "            <div class=\"col col-6\">\n" +
-                        "                <button type=\"button\" id=\"replyModalBtn\" class=\"btn btn-secondary btn-sm float-right\" data-toggle=\"modal\" data-target=\"#replyModifyModal\"><i class=\"fas fa-cog\"></i></button>\n" +
+                        "            <div class=\"card-body\">\n" +
+                        "                <div class=\"form-group contentBody\">\n" + replyObj.content +
+                        "                </div>\n" +
+                        "                <div class=\"form-group\">\n" +
+                        "                    <input class=\"form-control\" id=\"replyNo\" type=\"hidden\" name=\"replyNo\" value=\"" +replyObj.replyNo + "\"/>\n" +
+                        "                </div>\n" +
+                        "                <div class=\"form-group btnArea\">\n" +
+                        "                </div>\n" +
                         "            </div>\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "    <div class=\"card-body content\">\n"
-                                + replyObj.content +
-                        "    </div>\n" +
-                        "    <div class=\"card-footer\">\n" +
-                        "        <div class=\"small text-muted\">\n" +
-                        "            <span class=\"float-right\"><i class=\"far fa-clock\"></i> " + formatDate(replyObj.regDate) + "</span>\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "</div>\n" +
-                        "<hr/>";
+                        "            <div class=\"card-footer\">\n" +
+                        "                <div class=\"small text-muted\">\n" +
+                        "                    <span class=\"float-right\"><i class=\"far fa-clock\"></i> " + formatDate(replyObj.regDate) + " </span>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "        </div>" +
+                        "        <hr/>";
                 }
                 $("#replies").html(str);
             }
@@ -210,40 +216,80 @@
 
             // 댓글 추가
             var articleNo = [[${article.articleNo}]];
-
             var replyContentObj = $("textarea[name='content']");
             var replyWriterObj = $("input[name='writer']");
 
+            // 댓글 추가 처리 
             $("#replyAddBtn").click(function () {
-                var content = replyContentObj.val();
-                var writer = replyWriterObj.val();
-                var obj = {content: content, writer: writer, articleNo: articleNo};
+                if (confirm("댓글을 저장 하시겠습니까")) {
+                    var content = replyContentObj.val();
+                    var writer = replyWriterObj.val();
+                    var obj = {content: content, writer: writer, articleNo: articleNo};
 
-                replyManager.add(obj, function (list) {
-                    printList(list);
-                    alert("새로운 댓글이 추가되었습니다.");
-                    replyContentObj.val("");
-                    replyWriterObj.val("");
-                });
+                    replyManager.add(obj, function (list) {
+                        printList(list);
+                        alert("새로운 댓글이 추가되었습니다.");
+                        $("#newReply").summernote("code", "");
+                        replyWriterObj.val("");
+                    });
+                }
             });
 
-            $("#replies").on("click", ".reply", function (e) {
-                var a = $(this).find(".content").text();
-                console.log(a);
-                $("#modifyReplyContent").val(a).summernote({
-                    lang: 'ko-KR',
-                    placeholder: "댓글을 입력해주세요",
-                    tabsize: 2,
-                    height: 200
-                });
+            // 댓글 수정 저장, 취소 버튼 생성
+            $(document).on("click", "#replyModBtn", function (event) {
+                event.preventDefault();
+                console.log("clicked...");
+
+                var thisReply = $(this).parents(".reply");
+                var contentBody = thisReply.find(".contentBody");
+                var btnArea = thisReply.find(".btnArea");
+                contentBody.summernote({focus: true});
+
+                var buttonStr = "<div class=\"btn-group buttons\" role=\"group\">\n" +
+                    "    <button type=\"button\" class=\"btn btn-secondary\" id=\"saveBtn\">저장</button>\n" +
+                    "    <button type=\"button\" class=\"btn btn-secondary\" id=\"cancelBtn\">취소</button>\n" +
+                    "</div>";
+                btnArea.html(buttonStr);
             });
 
-            // $("#modifyReplyContent").summernote({
-            //     lang: 'ko-KR',
-            //     placeholder: "댓글을 입력해주세요",
-            //     tabsize: 2,
-            //     height: 200
-            // });
+            // 댓글 수정 저장 처리
+            $(document).on("click", "#saveBtn", function (event) {
+                if (confirm("댓글을 수정 하시겠습니까")) {
+                    var thisReply = $(this).parents(".reply");
+                    var contentBody = thisReply.find(".contentBody");
+                    var content = contentBody.summernote("code");
+                    var replyNo = thisReply.find("#replyNo").val();
+                    var obj = {content : content, articleNo : articleNo, replyNo : replyNo};
+
+                    replyManager.modify(obj, function (list) {
+                        printList(list);
+                        alert("댓글이 수정 되었습니다.");
+                    });
+                }
+            });
+
+            // 댓글 수정 취소 처리
+            $(document).on("click", "#cancelBtn", function (event) {
+                if (confirm("댓글 수정을 취소 하시겠습니까")) {
+                    replyManager.getAll([[${article.articleNo}]], printList);
+                }
+            });
+
+            // 댓글 삭제 처리
+            $(document).on("click", "#replyDelBtn", function (event) {
+                event.preventDefault();
+                if (confirm("댓글 삭제하시겠습니까")) {
+                    var thisReply = $(this).parents(".reply");
+                    var replyNo = thisReply.find("#replyNo").val();
+                    var obj = {articleNo : articleNo, replyNo : replyNo};
+                    replyManager.remove(obj, function (list) {
+                        printList(list);
+
+                        alert("댓글이 삭제 되었습니다.");
+                    });
+                }
+
+            });
 
         });
 

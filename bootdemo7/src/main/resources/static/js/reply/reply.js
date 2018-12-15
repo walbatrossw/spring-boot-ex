@@ -19,10 +19,25 @@ var replyManager = (function () {
 
     var modify = function (obj, callback) {
         console.log("modify ...");
+        $.ajax({
+            type: "put",
+            url: "/reply/" + obj.articleNo,
+            data : JSON.stringify(obj),
+            dataType : "JSON",
+            contentType : "application/json",
+            success:callback
+        });
     };
 
     var remove = function (obj, callback) {
         console.log("remove ...");
+        $.ajax({
+            type: "delete",
+            url: "/reply/" + obj.articleNo + "/" + obj.replyNo,
+            dataType : "JSON",
+            contentType : "application/json",
+            success:callback
+        });
     };
 
     return {
