@@ -9,6 +9,7 @@
 - Java 8
 - MySQL
 - JPA
+- Thymeleaf
 - Spring Security
 
 ## 2. bootdemo1 내용 : 프로젝트 생성 및 lombok
@@ -64,10 +65,18 @@
 - Spring MVC를 이용한 웹페이지 처리
 - Lteadmin 적용
 - 페이징 처리
-- 등록 기능 처리
-- 조회 기능 처리
+- 게시물 CRUD 처리
+- 게시물 입력 페이지 : summernote 에디터 적용
+
 
 ## 8. bootdemo7 내용 : 게시판 REST방식의 댓글 처리 JPA처리
+
+- RestController 설계
+- SB Admin 적용
+- 댓글 Ajax방식으로 CRUD 처리
+- 댓글 입력 영역 : summernote 에디터 적용
+- 게시물 리스트의 댓글 갯수처리
+    - 동적으로 JPQL 처리
 
 ## 9. bootdemo8 내용 : 스프링 웹 시큐리티
 
