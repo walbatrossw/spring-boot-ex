@@ -27,7 +27,7 @@
     <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력해주세요." required value="pw88">
     <div class="checkbox mb-3">
         <label>
-            <input type="checkbox" value="remember-me"> 자동 로그인
+            <input type="checkbox" id="remember-me" name="remember-me"> 자동 로그인
         </label>
     </div>
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>관리자</title>
 </head>
 <body>
     <h1>관리자 페이지</h1>
+    <hr/>
+    <h4 sec:authentication="name">spring security username</h4>
+    <h4>[[${#authentication.name}]]</h4>
+
+    <p sec:authorize-url="/admin/aaa">
+        <a href="/admin/aaa">ADMIN AAA</a>
+    </p>
+
+    <p sec:authorize-url="/manager/bbb">
+        <a href="/manager/bbb">MANAGER BBB</a>
+    </p>
+
+    <!--권한에 따라 출력하기-->
+    <h4 sec:authorize="hasRole('ROLE_ADMIN')">
+        관리자만 볼 수 있습니다.
+    </h4>
+
+    <h4 sec:authorize="hasRole('ROLE_MANAGER')">
+        먜니저만 볼 수 있습니다.
+    </h4>
+
+    <!--객체 출력, 데이터베이스 상의 사용자 정보-->
+    <div>
+        [[${#authentication.principal}]]
+    </div>
+
+    <hr/>
+
+    <div>
+        [[${#authentication.principal.member}]]
+    </div>
+
+    <hr/>
+
+    <div>
+        [[${#authentication.principal.member.memberId}]]
+    </div>
+
+    <div th:with="member=${#authentication.principal.member}">
+        <p>[[${member.memberId}]]</p>
+        <p>[[${member.memberName}]]</p>
+        <p>[[${member.memberPw}]]</p>
+    </div>
+
 </body>
 </html>
