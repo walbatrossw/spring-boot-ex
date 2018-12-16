@@ -80,4 +80,16 @@
 
 ## 9. bootdemo8 내용 : 스프링 웹 시큐리티
 
+- 회원 권한 설계
+- 로그인/로그아웃 설계
+- 인증방식
+    - JDBC를 이용한 인증처리
+    - 사용자 정의 `UserDetailsService` 작성
+    - `MemberRepository` 연동
+- Thymeleaf에서 스프링 시큐리티 처리
+- Remember-Me 인증처리
+- MVC 애너테이션 처리(`@Secured`)
+- `PasswordEncoder` 사용
+- 회원가입 처리
+
 ## 10. bootdemo9 내용 : 게시판에 스프링 웹 시큐리티 적용하기
