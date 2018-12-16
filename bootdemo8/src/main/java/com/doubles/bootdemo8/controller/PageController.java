@@ -1,4 +1,4 @@
-package com.doubles.bootdemo8.sample.controller;
+package com.doubles.bootdemo8.controller;
 
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Log
 @Controller
-public class SampleController {
+public class PageController {
 
     @GetMapping("/")
     public String main() {

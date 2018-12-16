@@ -1,8 +1,8 @@
 package com.doubles.bootdemo8;
 
-import com.doubles.bootdemo8.sample.domain.Member;
-import com.doubles.bootdemo8.sample.domain.MemberRole;
-import com.doubles.bootdemo8.sample.persistence.MemberRepository;
+import com.doubles.bootdemo8.domain.Member;
+import com.doubles.bootdemo8.domain.MemberRole;
+import com.doubles.bootdemo8.persistence.MemberRepository;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;

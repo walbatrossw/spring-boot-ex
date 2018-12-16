@@ -1,6 +1,6 @@
-package com.doubles.bootdemo8.sample.persistence;
+package com.doubles.bootdemo8.persistence;
 
-import com.doubles.bootdemo8.sample.domain.Member;
+import com.doubles.bootdemo8.domain.Member;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MemberRepository extends CrudRepository<Member, String> {
