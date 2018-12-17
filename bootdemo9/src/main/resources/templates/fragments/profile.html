@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="profile" class="col-sm-6 clearfix">
+    <div class="user-profile pull-right">
+        <img class="avatar user-thumb" th:src="@{/assets/images/author/default-user.png}" alt="avatar">
+        <h4 class="user-name dropdown-toggle" data-toggle="dropdown">비회원 <i class="fa fa-angle-down"></i></h4>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/member/register}">회원가입</a>
+            <a class="dropdown-item" th:href="@{/member/login}">로그인</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

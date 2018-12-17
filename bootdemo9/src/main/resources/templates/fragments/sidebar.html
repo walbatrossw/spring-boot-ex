@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-
+    <!-- sidebar menu area start -->
+    <div th:fragment="sidebar" class="sidebar-menu">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h4><a href="/main" style="color: white">DOUBLES BOOT DEMO 9</a></h4>
+            </div>
+        </div>
+        <div class="main-menu">
+            <div class="menu-inner">
+                <nav>
+                    <ul class="metismenu" id="menu">
+                        <li>
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-clone"></i><span>게시판</span></a>
+                            <ul class="collapse">
+                                <li><a th:href="@{/article/list}"><i class="fa fa-list"></i>  목록</a></li>
+                                <li><a th:href="@{/article/write}"><i class="fa fa-pencil"></i>  작성</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- sidebar menu area end -->
 </body>
 </html>

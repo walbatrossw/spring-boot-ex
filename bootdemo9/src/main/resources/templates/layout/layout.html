@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!doctype html>
+<html class="no-js"
+      lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-</body>
+    <head th:replace="fragments/head::head"></head>
+
+    <body>
+
+        <!-- preloader area start -->
+        <div id="preloader">
+            <div class="loader"></div>
+        </div>
+        <!-- preloader area end -->
+
+        <!-- page container area start -->
+        <div class="page-container">
+
+            <!-- == sidebar == -->
+            <div th:replace="fragments/sidebar::sidebar"></div>
+
+            <!-- main content area start -->
+            <div class="main-content">
+
+                <!-- == header == -->
+                <div th:replace="fragments/header::header"></div>
+
+                <!-- == page title == -->
+                <div class="page-title-area" layout:fragment="page_title"></div>
+
+                <!-- == page content area == -->
+                <div class="main-content-inner" layout:fragment="content"></div>
+
+            </div>
+            <!-- main content area end -->
+
+            <!-- == footer == -->
+            <footer th:replace="fragments/footer::footer"></footer>
+
+        </div>
+
+        <!--jquery-->
+        <script th:src="@{/assets/js/vendor/jquery-2.2.4.min.js}"></script>
+        <!-- bootstrap 4 js -->
+        <script th:src="@{/assets/js/popper.min.js}"></script>
+        <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+        <script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+        <script th:src="@{/assets/js/metisMenu.min.js}"></script>
+        <script th:src="@{/assets/js/jquery.slimscroll.min.js}"></script>
+        <script th:src="@{/assets/js/jquery.slicknav.min.js}"></script>
+        <!-- others plugins -->
+        <script th:src="@{/assets/js/plugins.js}"></script>
+        <script th:src="@{/assets/js/scripts.js}"></script>
+
+        <!--== custom js area ==-->
+        <th:block layout:fragment="script">
+
+        </th:block>
+
+    </body>
+
 </html>
