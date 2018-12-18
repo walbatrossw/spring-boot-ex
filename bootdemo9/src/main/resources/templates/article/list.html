@@ -107,6 +107,17 @@
 
     <script th:inline="javascript">
 
+        $(window).on("load", function () {
+
+            var msg = [[${msg}]];
+
+            if (msg == "write success") {
+                alert("정상적으로 게시물이 작성 되었습니다.");
+                var stateObj = {msg: ""};
+            }
+
+        });
+
         $(document).ready(function () {
 
             var listFormObj = $("#listForm");

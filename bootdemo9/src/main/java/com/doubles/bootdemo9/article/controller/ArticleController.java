@@ -11,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Log
 @Controller
@@ -45,14 +47,22 @@ public class ArticleController {
 
     // 게시물 작성 페이지
     @GetMapping("/write")
-    public void writeGET() {
+    public void write(@ModelAttribute("article") Article article) {
+
         log.info("write() get called ...");
+
     }
 
     // 게시물 작성 처리
     @PostMapping("/write")
-    public String writePOST() {
+    public String write(@ModelAttribute("article") Article article, RedirectAttributes redirectAttributes) {
+
         log.info("write() post called ...");
+        log.info("" + article);
+
+        articleRepository.save(article);
+        redirectAttributes.addFlashAttribute("msg", "write success");
+
         return "redirect:/article/list";
     }
 
