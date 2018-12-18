@@ -30,11 +30,11 @@ public class ArticleController {
     @GetMapping("/list")
     public void list(PageVO pageVO, Model model) {
 
-
         Pageable pageable = pageVO.makePageable(0, "articleNo");
-        Page<Article> result = articleRepository.findAll(articleRepository.makePredicate(null, null), pageable);
+        Page<Article> result = articleRepository.findAll(articleRepository.makePredicate(pageVO.getType(), pageVO.getKeyword()), pageable);
 
         log.info("list() called ...");
+        log.info("" + pageVO);
         log.info("" + pageable);
         log.info("" + result);
         log.info("total page number : " + result.getTotalPages());

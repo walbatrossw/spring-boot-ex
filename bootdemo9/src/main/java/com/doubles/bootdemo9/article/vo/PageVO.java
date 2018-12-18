@@ -1,9 +1,11 @@
 package com.doubles.bootdemo9.article.vo;
 
+import lombok.ToString;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+@ToString
 public class PageVO {
 
     private static final int DEFAULT_SIZE = 15;
@@ -12,9 +14,28 @@ public class PageVO {
     private int page;
     private int size;
 
+    private String keyword;
+    private String type;
+
     public PageVO() {
         this.page = 1;
         this.size = DEFAULT_SIZE;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getPage() {

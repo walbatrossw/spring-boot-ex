@@ -7,8 +7,6 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 
-import static com.doubles.bootdemo9.article.domain.QArticle.article;
-
 
 public interface ArticleRepository extends CrudRepository<Article, Long>, QuerydslPredicateExecutor<Article> {
 
