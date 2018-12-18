@@ -44,7 +44,7 @@
                             <tbody>
                             <tr th:each="article:${result.content}">
                                 <th scope="row">[[${article.articleNo}]]</th>
-                                <td align="left">[[${article.title}]]</td>
+                                <td align="left"><a th:href="${article.articleNo}" class="articleLink">[[${article.title}]]</a></td>
                                 <td>[[${article.writer}]]</td>
                                 <td>[[${#dates.format(article.createDate, 'yyyy-MM-dd HH:mm')}]]</td>
                             </tr>
@@ -121,13 +121,15 @@
         $(document).ready(function () {
 
             var listFormObj = $("#listForm");
-            
+
+            // 페이지 번호 클릭 이벤트
             $(".pagination a").click(function (e) {
                e.preventDefault();
                listFormObj.find('[name="page"]').val($(this).attr('href'));
                listFormObj.submit();
             });
-            
+
+            // 검색 버튼 클릭 이벤트
             $("#searchBtn").click(function (e) {
                 var typeStr = $("#searchType").find(":selected").val();
                 var keywordStr = $("#searchKeyword").val();
@@ -140,6 +142,20 @@
 
                 listFormObj.submit();
             });
+
+            // 게시글 제목 클릭 이벤트
+            $(".articleLink").click(function (e) {
+
+                e.preventDefault();
+
+                var articleNo = $(this).attr("href");
+                console.log("articleNo : " + articleNo);
+                listFormObj.attr("action", [[@{'/article/read'}]]);
+                listFormObj.append("<input type='hidden' name='articleNo' value='" + articleNo + "'>");
+
+                listFormObj.submit();
+            });
+
         });
 
     </script>
