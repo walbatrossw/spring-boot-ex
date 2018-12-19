@@ -1,5 +1,6 @@
 package com.doubles.bootdemo9.article.domain;
 
+import com.doubles.bootdemo9.reply.domain.Reply;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,5 +37,8 @@ public class Article {
 
     @UpdateTimestamp
     private Timestamp UpdateDate;
+
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY) // 지연로딩
+    private List<Reply> replies;
 
 }
