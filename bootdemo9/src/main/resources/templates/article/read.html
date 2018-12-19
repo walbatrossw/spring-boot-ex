@@ -54,6 +54,16 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
+                    <a class="btn btn-primary"
+                       th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
+                       role="button">
+                        <i class="fa fa-edit"></i> 수정 / 삭제
+                    </a>
+                    <a class="btn btn-primary"
+                       th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
+                       role="button">
+                        <i class="fa fa-list"></i> 목록
+                    </a>
                     <div class="float-right">
                         <a class="btn btn-primary"
                            th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo - 1})}"
@@ -66,16 +76,6 @@
                             다음글 <i class="fa fa fa-chevron-right"></i>
                         </a>
                     </div>
-                    <a class="btn btn-primary"
-                       th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
-                       role="button">
-                        <i class="fa fa-edit"></i> 수정 / 삭제
-                    </a>
-                    <a class="btn btn-primary"
-                       th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
-                       role="button">
-                        <i class="fa fa-list"></i> 목록
-                    </a>
                 </div>
             </div>
         </div>

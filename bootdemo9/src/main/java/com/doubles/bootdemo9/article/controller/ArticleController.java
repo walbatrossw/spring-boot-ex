@@ -79,21 +79,58 @@ public class ArticleController {
 
     // 게시물 수정 페이지
     @GetMapping("/modify")
-    public void modifyGET() {
+    public void modify(Long articleNo, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
+
         log.info("modify() get called ...");
+        log.info("" + articleNo);
+
+        articleRepository.findById(articleNo).ifPresent(article -> model.addAttribute("article", article));
+
     }
 
     // 게시물 수정 처리
     @PostMapping("/modify")
-    public String modifyPOST() {
+    public String modify(Article article, PageVO pageVO, RedirectAttributes redirectAttributes) {
+
         log.info("modify() post called ...");
-        return "redirect:/article/list";
+        log.info("modify article : " + article);
+
+        articleRepository.findById(article.getArticleNo()).ifPresent(origin -> {
+
+            origin.setTitle(article.getTitle());
+            origin.setContent(article.getContent());
+            articleRepository.save(origin);
+
+            redirectAttributes.addFlashAttribute("msg", "modify success");
+            redirectAttributes.addAttribute("articleNo", article.getArticleNo());
+
+        });
+
+        getRedirectAttributes(pageVO, redirectAttributes);
+
+        return "redirect:/article/read";
     }
+
     // 게시물 삭제 처리
     @PostMapping("/remove")
-    public String removePOST() {
+    public String remove(Long articleNo, PageVO pageVO, RedirectAttributes redirectAttributes) {
 
         log.info("remove() post called ...");
+        log.info("remove article : " + articleNo);
+
+        articleRepository.deleteById(articleNo);
+        redirectAttributes.addFlashAttribute("msg", "remove success");
+
+        getRedirectAttributes(pageVO, redirectAttributes);
+
         return "redirect:/article/list";
     }
+
+    private void getRedirectAttributes(PageVO pageVO, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("page", pageVO.getPage());
+        redirectAttributes.addAttribute("size", pageVO.getSize());
+        redirectAttributes.addAttribute("type", pageVO.getType());
+        redirectAttributes.addAttribute("keyword", pageVO.getKeyword());
+    }
+
 }

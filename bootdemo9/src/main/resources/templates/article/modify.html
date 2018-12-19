@@ -7,6 +7,7 @@
 
 <th:block layout:fragment="head_title">
     <title> Boot Demo 9 | Modify </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
 </th:block>
 
 <body>
@@ -31,12 +32,94 @@
         <div class="col-lg-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    수정 페이지 입니다.
+                    <form id="form">
+                        <div class="form-group">
+                            <label for="title">제목</label>
+                            <input class="form-control" id="title" type="text" name="title" th:value="${article.title}" placeholder="제목을 입력해주세요...">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">내용</label>
+                            <textarea id="content" name="content" th:text="${article.content}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="writer">작성자</label>
+                            <input class="form-control" id="writer" type="text" name="writer" th:value="${article.writer}" placeholder="작성자 이름을 입력해주세요" readonly>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" name="articleNo" th:value="${article.articleNo}">
+                            <input class="form-control" type="hidden" name="page" th:value="${pageVO.page}">
+                            <input class="form-control" type="hidden" name="size" th:value="${pageVO.size}">
+                            <input class="form-control" type="hidden" name="type" th:value="${pageVO.type}">
+                            <input class="form-control" type="hidden" name="keyword" th:value="${pageVO.keyword}">
+                            <input class="form-control" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        </div>
+                        <hr/>
+                        <button type="reset" class="btn btn-secondary" id="reset"><i class="fa fa-refresh"></i> 초기화</button>
+                        <a class="btn btn-primary"
+                           th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword})}"
+                           role="button">
+                            <i class="fa fa-list"></i> 목록
+                        </a>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary" id="delBtn"><i class="fa fa-trash"></i> 삭제</button>
+                            <button type="button" class="btn btn-primary" id="modBtn"><i class="fa fa-save"></i> 저장</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<th:block layout:fragment="script">
+    <!--summernote js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+    <script th:src="@{/assets/js/summernote-ko-KR.js}"></script>
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+
+            var formObj = $("#form");
+
+            // summernote 설정
+            $("#content").summernote({
+
+                lang: 'ko-KR',
+                placeholder: "내용을 입력해주세요",
+                tabsize: 2,
+                height: 600
+
+            });
+
+            // 초기화 버튼 클릭 이벤트
+            $("#reset").click(function () {
+
+                $("#title").val("");
+                $('#content').summernote("code", "");
+
+            });
+
+            // 수정 버튼 클릭 이벤트
+            $("#modBtn").click(function () {
+
+                formObj.attr("action", "/article/modify");
+                formObj.attr("method", "post");
+                formObj.submit();
+
+            });
+
+            // 삭제 버튼 클릭 이벤트
+            $("#delBtn").click(function () {
+
+                formObj.attr("action", "/article/remove");
+                formObj.attr("method", "post");
+                formObj.submit();
+
+            });
+
+        });
+    </script>
+</th:block>
 </body>
 
 </html>
