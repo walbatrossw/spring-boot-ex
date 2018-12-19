@@ -7,6 +7,7 @@
 
 <th:block layout:fragment="head_title">
     <title> Boot Demo 9 | Read </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
 </th:block>
 
 <body>
@@ -31,46 +32,46 @@
         <div class="col-lg-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <div class="col-8">
-                        <h4 class="header-title">[[${article.title}]]</h4>
-                    </div>
+                    <h4 class="header-title">[[${article.title}]]</h4>
                     <hr/>
                     <div style="min-height: 500px">
                         <div th:remove="tag" th:utext="${article.content}"></div>
                     </div>
                     <hr/>
-                    <div class="media">
-                        <img class="img-fluid mr-3" src="/assets/images/media/media1.jpg" alt="img">
-                        <div class="media-body">
-                            <h6><a href="#">[[${article.writer}]]</a></h6>
-                            <br/>
-                            <br/>
-                            <span class="float-right">
-                                <i class="fa fa-clock-o"></i>
-                                작성 : [[${#dates.format(article.createDate, 'yyyy-MM-dd HH:mm')}]] /
-                                수정 : [[${#dates.format(article.updateDate, 'yyyy-MM-dd HH:mm')}]]
-                            </span>
+                    <div class="member-box">
+                        <div class="s-member">
+                            <div class="media align-items-center">
+                                <img src="/assets/images/team/team-author1.jpg" class="d-block ui-w-30 rounded-circle" alt="">
+                                <div class="media-body ml-5">
+                                    <p style="font-size: 15px"><a href="#">[[${article.writer}]]</a></p>
+                                    <span style="font-size: 13px">
+                                        <i class="fa fa-clock-o"></i>
+                                        작성 : [[${#dates.format(article.createDate, 'yyyy-MM-dd HH:mm')}]] /
+                                        수정 : [[${#dates.format(article.updateDate, 'yyyy-MM-dd HH:mm')}]]
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <a class="btn btn-primary"
+                    <a class="btn btn-primary btn-xs"
                        th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
                        role="button">
                         <i class="fa fa-edit"></i> 수정 / 삭제
                     </a>
-                    <a class="btn btn-primary"
+                    <a class="btn btn-primary btn-xs"
                        th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
                        role="button">
                         <i class="fa fa-list"></i> 목록
                     </a>
                     <div class="float-right">
-                        <a class="btn btn-primary"
+                        <a class="btn btn-primary btn-xs"
                            th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo - 1})}"
                            role="button">
                             <i class="fa fa fa-chevron-left"></i> 이전글
                         </a>
-                        <a class="btn btn-primary"
+                        <a class="btn btn-primary btn-xs"
                            th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo + 1})}"
                            role="button">
                             다음글 <i class="fa fa fa-chevron-right"></i>
@@ -79,8 +80,67 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-12 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea class="form-control" id="newReply" name="content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="writer" type="text" name="writer" placeholder="작성자 이름을 입력해주세요">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-xs float-right" id="replyAddBtn"><i
+                                class="fa fa-save"></i> 댓글 저장
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    댓글 목록 영역
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<th:block layout:fragment="script">
+
+    <script th:inline="javascript" th:src="@{/js/reply/reply.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+    <script th:src="@{/vendor/summernote-lang/summernote-ko-KR.js}"></script>
+
+
+    <script th:inline="javascript">
+
+        $(window).on('load', function () {
+
+            var msg = [[${msg}]];
+
+            if (msg == "modify success") {
+                alert("정상적으로 게시물이 수정 되었습니다.");
+                var stateObj = {msg: ""};
+            }
+
+        });
+
+        $(document).ready(function (e) {
+
+            $("#newReply").summernote({
+                lang: 'ko-KR',
+                placeholder: "댓글을 입력해주세요",
+                tabsize: 2,
+                height: 200
+            });
+
+        });
+
+    </script>
+
+</th:block>
 </body>
 
 </html>
