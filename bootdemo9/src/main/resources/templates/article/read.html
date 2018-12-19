@@ -29,6 +29,7 @@
 
 <div layout:fragment="content">
     <div class="row">
+
         <div class="col-lg-12 mt-5">
             <div class="card">
                 <div class="card-body">
@@ -80,15 +81,19 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-12 mt-5">
             <div class="card">
                 <div class="card-body">
+                    <h4 class="header-title">댓글 작성</h4>
+                    <hr/>
                     <div class="form-group">
                         <textarea class="form-control" id="newReply" name="content"></textarea>
                     </div>
                     <div class="form-group">
                         <input class="form-control" id="writer" type="text" name="writer" placeholder="작성자 이름을 입력해주세요">
                     </div>
+                    <hr/>
                     <div class="form-group">
                         <button type="button" class="btn btn-primary btn-xs float-right" id="replyAddBtn"><i
                                 class="fa fa-save"></i> 댓글 저장
@@ -97,21 +102,27 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    댓글 목록 영역
+                    <h4 class="header-title">댓글 목록</h4>
+                    <hr/>
+                    <div class="replies">
+
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 <th:block layout:fragment="script">
 
-    <script th:inline="javascript" th:src="@{/js/reply/reply.js}"></script>
+    <script th:inline="javascript" th:src="@{/assets/js/reply.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
-    <script th:src="@{/vendor/summernote-lang/summernote-ko-KR.js}"></script>
+    <script th:src="@{/assets/js/summernote-ko-KR.js}"></script>
 
 
     <script th:inline="javascript">
@@ -134,6 +145,146 @@
                 placeholder: "댓글을 입력해주세요",
                 tabsize: 2,
                 height: 200
+            });
+
+            (function () {
+                replyManager.getAll([[${article.articleNo}]], printList)
+            })();
+            
+            function printList(list) {
+                console.log(list);
+                var str = "";
+                var replyObj;
+                for (var i = 0; i < list.length; i++) {
+                    replyObj = list[i];
+                    str += "<div class=\"reply\">\n" +
+                        "    <div class=\"member-box\">\n" +
+                        "        <div class=\"s-member\">\n" +
+                        "            <div class=\"media align-items-center\">\n" +
+                        "                <img src=\"/assets/images/team/team-author1.jpg\" class=\"d-block ui-w-30 rounded-circle\" alt=\"\">\n" +
+                        "                <div class=\"media-body ml-5\">\n" +
+                        "                    <p style=\"font-size: 15px\"><a th:href=\"\">" + replyObj.writer + "</a></p>\n" +
+                        "                    <span style=\"font-size: 13px\">\n" +
+                        "                        <i class=\"fa fa-clock-o\"></i>\n" +
+                        "                           작성 : " + formatDate(replyObj.createDate) + " / 수정 : " + formatDate(replyObj.createDate) +
+                        "                    </span>\n" +
+                        "                </div>\n" +
+                        "                <div class=\"dropdown\">\n" +
+                        "                    <button class=\"btn btn-flat btn-danger btn-xs dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton1\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
+                        "                        <i class=\"fa fa-cog\"></i>\n" +
+                        "                    </button>\n" +
+                        "                    <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">\n" +
+                        "                        <a class=\"dropdown-item\" id=\"modBtn\" href=\"#\">수정</a>\n" +
+                        "                        <a class=\"dropdown-item\" id=\"delBtn\" href=\"#\">삭제</a>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "    <div class='contentBody' style=\"height: auto\">\n" +
+                        "         " + replyObj.content +
+                        "    </div>\n" +
+                        "    <div class=\"form-group\">\n" +
+                        "       <input class=\"form-control\" id=\"replyNo\" type=\"hidden\" name=\"replyNo\" value=\"" +replyObj.replyNo + "\"/>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"form-group btnArea\">\n" +
+                        "    </div>\n" +
+                        "</div>\n" +
+                        "<hr/>";
+                }
+                $(".replies").html(str);
+            }
+
+            // 시간 포맷 변환
+            function formatDate(timeValue) {
+                var date = new Date(timeValue);
+                return date.getFullYear()
+                    + "-" + (date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1))
+                    + "-" + date.getDate()
+                    + " " + date.getHours()
+                    + ":" + date.getMinutes();
+            }
+
+            // 댓글 추가
+            var articleNo = [[${article.articleNo}]];
+            var replyContentObj = $("textarea[name='content']");
+            var replyWriterObj = $("input[name='writer']");
+
+            // 댓글 추가 처리
+            $("#replyAddBtn").click(function () {
+                if (confirm("댓글을 저장 하시겠습니까")) {
+                    var content = replyContentObj.val();
+                    var writer = replyWriterObj.val();
+                    var obj = {content: content, writer: writer, articleNo: articleNo};
+
+                    replyManager.add(obj, function (list) {
+                        printList(list);
+                        alert("새로운 댓글이 추가되었습니다.");
+                        $("#newReply").summernote("code", "");
+                        replyWriterObj.val("");
+                    });
+                }
+            });
+
+            // 댓글 수정 저장, 취소 버튼 생성
+            $(document).on("click", "#modBtn", function (event) {
+                event.preventDefault();
+                console.log("clicked...");
+
+                var thisReply = $(this).parents(".reply");
+                var contentBody = thisReply.find(".contentBody");
+                var btnArea = thisReply.find(".btnArea");
+                contentBody.summernote({
+                    focus: true,
+                    lang: 'ko-KR',
+                    tabsize: 2,
+                    height: 150
+                });
+
+                var buttonStr = "<div class=\"btn-group buttons\" role=\"group\">\n" +
+                    "    <button type=\"button\" class=\"btn btn-secondary btn-xs\" id=\"saveBtn\">저장</button>\n" +
+                    "    <button type=\"button\" class=\"btn btn-secondary btn-xs\" id=\"cancelBtn\">취소</button>\n" +
+                    "</div>";
+                btnArea.html(buttonStr);
+            });
+
+            // 댓글 수정 저장 처리
+            $(document).on("click", "#saveBtn", function (event) {
+                if (confirm("댓글을 수정 하시겠습니까")) {
+                    var thisReply = $(this).parents(".reply");
+                    var contentBody = thisReply.find(".contentBody");
+                    var content = contentBody.summernote("code");
+                    var replyNo = thisReply.find("#replyNo").val();
+                    var obj = {content : content, articleNo : articleNo, replyNo : replyNo};
+
+                    replyManager.modify(obj, function (list) {
+                        printList(list);
+                        alert("댓글이 수정 되었습니다.");
+                    });
+                }
+            });
+
+            // 댓글 수정 취소 처리
+            $(document).on("click", "#cancelBtn", function (event) {
+                if (confirm("댓글 수정을 취소 하시겠습니까")) {
+                    replyManager.getAll([[${article.articleNo}]], printList);
+                }
+            });
+
+            // 댓글 삭제 처리
+            $(document).on("click", "#delBtn", function (event) {
+                event.preventDefault();
+                if (confirm("댓글 삭제하시겠습니까")) {
+                    var thisReply = $(this).parents(".reply");
+                    var replyNo = thisReply.find("#replyNo").val();
+                    var obj = {articleNo : articleNo, replyNo : replyNo};
+                    replyManager.remove(obj, function (list) {
+                        printList(list);
+
+                        alert("댓글이 삭제 되었습니다.");
+                    });
+                }
+
             });
 
         });

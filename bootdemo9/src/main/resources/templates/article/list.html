@@ -114,7 +114,10 @@
             if (msg == "write success") {
                 alert("정상적으로 게시물이 작성 되었습니다.");
                 var stateObj = {msg: ""};
-            }
+            } else if (msg == "remove success") {
+                alert("정상적으로 게시물이 삭제 되었습니다.");
+                var stateObj = {msg: ""};
+            } 
 
         });
 
