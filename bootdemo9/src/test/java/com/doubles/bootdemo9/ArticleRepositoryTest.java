@@ -33,7 +33,7 @@ public class ArticleRepositoryTest {
             Article article = new Article();
             article.setTitle("샘플 게시글 제목 입니다. " + i);
             article.setContent("샘플 게시글 내용입니다........" + i);
-            article.setWriter("user0" + (i % 10));
+            article.setWriter("회원" + (i % 10));
             articleRepository.save(article);
         });
 

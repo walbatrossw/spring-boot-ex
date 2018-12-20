@@ -39,8 +39,8 @@ public class ReplyRepositoryTest {
             IntStream.range(0, 30).forEach(i -> {
 
                 Reply reply = new Reply();
-                reply.setContent("댓글 내용입니다... 좋은 글 감사합니다...");
-                reply.setWriter("user0" + (i % 10));
+                reply.setContent("샘플 댓글 내용입니다... 좋은 글 감사합니다... ");
+                reply.setWriter("회원" + (i % 10));
                 reply.setArticle(article);
                 replyRepository.save(reply);
             });
