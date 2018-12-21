@@ -1,5 +1,7 @@
 <!doctype html>
-<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js"
+      lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -36,16 +38,16 @@
         <div class="login-box ptb--100">
             <form method="post">
                 <div class="login-form-head">
-                    <h4><a href="/main" style="color: white">DOUBLES BOOT DEMO 9</a></h4>
+                    <h4><a href="/" style="color: white">DOUBLES BOOT DEMO 9</a></h4>
                     <p>로그인 페이지 입니다.</p>
                 </div>
                 <div class="login-form-body">
-                    <div class="form-gp">
-                        <div th:if="${param.error !=null}">
+                    <div class="form-gp msg">
+                        <div th:if="${param.error != null}">
                             <p style="color: red">이메일 또는 비밀번호가 일치하지 않습니다.</p>
                             <p th:value="${param.error}"></p>
                         </div>
-                        <div th:if="${param.logout !=null}">
+                        <div th:if="${param.logout != null}">
                             <p>로그아웃되었습니다.</p>
                         </div>
                     </div>
@@ -65,8 +67,8 @@
                     <div class="row mb-4 rmber-area">
                         <div class="col-6">
                             <div class="custom-control custom-checkbox mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="rememberMe">
-                                <label class="custom-control-label" for="rememberMe">로그인 유지</label>
+                                <input type="checkbox" class="custom-control-input" id="remember-me" name="remember-me">
+                                <label class="custom-control-label" for="remember-me" >로그인 유지</label>
                             </div>
                         </div>
                         <div class="col-6 text-right">
@@ -107,6 +109,18 @@
 <!-- others plugins -->
 <script src="/assets/js/plugins.js"></script>
 <script src="/assets/js/scripts.js"></script>
+<script th:inline="javascript">
+    $(window).on("load", function () {
+
+        var msg = [[${msg}]];
+
+        if (msg == "register success") {
+            alert("정상적으로 회원가입 되었습니다. 로그인해주세요");
+            var stateObj = {msg: ""};
+        }
+
+    });
+</script>
 </body>
 
 </html>

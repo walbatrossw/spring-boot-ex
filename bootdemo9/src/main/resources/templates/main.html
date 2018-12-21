@@ -36,6 +36,25 @@
             </div>
         </div>
     </div>
+
+    <th:block layout:fragment="script">
+
+        <script th:inline="javascript">
+
+            $(window).on("load", function () {
+
+                var msg = [[${msg}]];
+
+                if (msg == "register success") {
+                    alert("정상적으로 회원가입 되었습니다. 로그인해주세요.");
+                    var stateObj = {msg: ""};
+                }
+
+            });
+
+        </script>
+
+    </th:block>
 </body>
 
 </html>

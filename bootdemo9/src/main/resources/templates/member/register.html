@@ -1,27 +1,29 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js"
+      lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title> BOOT DEMO 9 | REGISTER </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="/assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/themify-icons.css">
-    <link rel="stylesheet" href="/assets/css/metisMenu.css">
-    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/assets/css/slicknav.min.css">
+    <link rel="shortcut icon" type="image/png" th:href="@{/assets/images/icon/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{assets/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{assets/css/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/metisMenu.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/slicknav.min.css}">
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- others css -->
-    <link rel="stylesheet" href="/assets/css/typography.css">
-    <link rel="stylesheet" href="/assets/css/default-css.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" th:href="@{/assets/css/typography.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/default-css.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/responsive.css}">
     <!-- modernizr css -->
-    <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script th:src="@{/assets/js/vendor/modernizr-2.8.3.min.js}"></script>
 </head>
 
 <body>
@@ -37,30 +39,31 @@
     <div class="login-area">
         <div class="container">
             <div class="login-box ptb--100">
-                <form>
+                <form method="post">
                     <div class="login-form-head">
-                        <h4><a href="/main" style="color: white">DOUBLES BOOT DEMO 9</a></h4>
+                        <h4><a href="/" style="color: white">DOUBLES BOOT DEMO 9</a></h4>
                         <p>회원가입 페이지</p>
                     </div>
                     <div class="login-form-body">
                         <div class="form-gp">
-                            <label for="exampleInputName1">아이디</label>
-                            <input type="text" id="exampleInputName1">
+                            <label for="memberEmail">이메일</label>
+                            <input type="email" id="memberEmail" name="memberEmail">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <i class="ti-user"></i>
                         </div>
                         <div class="form-gp">
-                            <label for="exampleInputEmail1">이름</label>
-                            <input type="email" id="exampleInputEmail1">
+                            <label for="memberName">이름</label>
+                            <input type="text" id="memberName" name="memberName">
                             <i class="ti-email"></i>
                         </div>
                         <div class="form-gp">
-                            <label for="exampleInputPassword1">비밀번호</label>
-                            <input type="password" id="exampleInputPassword1">
+                            <label for="memberPw">비밀번호</label>
+                            <input type="password" id="memberPw" name="memberPw">
                             <i class="ti-lock"></i>
                         </div>
                         <div class="form-gp">
-                            <label for="exampleInputPassword2">비밀번호 확인</label>
-                            <input type="password" id="exampleInputPassword2">
+                            <label for="memberPw2">비밀번호 확인</label>
+                            <input type="password" id="memberPw2">
                             <i class="ti-lock"></i>
                         </div>
                         <div class="submit-btn-area">
@@ -85,18 +88,19 @@
     <!-- login area end -->
 
     <!-- jquery latest version -->
-    <script src="/assets/js/vendor/jquery-2.2.4.min.js"></script>
+    <script th:src="@{/assets/js/vendor/jquery-2.2.4.min.js}"></script>
     <!-- bootstrap 4 js -->
-    <script src="/assets/js/popper.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/owl.carousel.min.js"></script>
-    <script src="/assets/js/metisMenu.min.js"></script>
-    <script src="/assets/js/jquery.slimscroll.min.js"></script>
-    <script src="/assets/js/jquery.slicknav.min.js"></script>
+    <script th:src="@{/assets/js/popper.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/assets/js/metisMenu.min.js}"></script>
+    <script th:src="@{/assets/js/jquery.slimscroll.min.js}"></script>
+    <script th:src="@{/assets/js/jquery.slicknav.min.js}"></script>
     
     <!-- others plugins -->
-    <script src="/assets/js/plugins.js"></script>
-    <script src="/assets/js/scripts.js"></script>
+    <script th:src="@{/assets/js/plugins.js}"></script>
+    <script th:src="@{/assets/js/scripts.js}"></script>
+
 </body>
 
 </html>
