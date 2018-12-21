@@ -44,14 +44,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/reply/**").hasAnyRole("BASIC", "ADMIN");
 
         // 로그인 페이지
-        http.formLogin().loginPage("/member/login");
+        http.formLogin()
+                .loginPage("/member/login")
+                .successHandler(new LoginSuccessHandler()); // 로그인 성공 이후 페이지
 
         // 로그아웃 설정
         http.logout()
-                .logoutUrl("/member/logout")    // 로그인 페이지
-                .logoutSuccessUrl("/member/login")  // 로그인 성공 이후 페이지
+                .logoutUrl("/member/logout")    // 로그아웃
+                .logoutSuccessUrl("/member/login")  // 로그아웃 이후 페이지
                 .invalidateHttpSession(true);   // 세션 무효화
 
+        // 로그인 유지
         http.rememberMe()
                 .key("doubles")
                 .userDetailsService(usersService)

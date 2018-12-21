@@ -94,7 +94,7 @@
                     <div class="card-body">
                         <h4 class="header-title">댓글 작성</h4>
                         <hr/>
-                        <p>댓글 작성은 <a th:href="@{/member/login}">로그인</a>한 사용자만 가능합니다.</p>
+                        <p><a class="btn btn-outline-primary btn-xs" id="loginBtn" href="#" role="button"><i class="fa fa-sign-in"></i> 로그인</a> 한 사용자만 댓글 작성이 가능합니다.</p>
                     </div>
                 </div>
             </div>
@@ -156,6 +156,11 @@
         });
 
         $(document).ready(function (e) {
+
+            $("#loginBtn").click(function (e) {
+                e.preventDefault();
+                self.location = [[@{/member/login}]]+"?destination=" + encodeURIComponent(self.location);
+            });
 
             $("#newReply").summernote({
                 lang: 'ko-KR',
@@ -223,10 +228,8 @@
                     + ":" + date.getMinutes();
             }
 
-            var memberName = [[${#authentication.principal.member.memberName}]];
+            var memberName =[[${#authentication.principal} eq 'anonymousUser'? null :${#authentication.principal.member.memberName}]];
             var csrf = JSON.parse('[[${_csrf}]]');
-
-            console.log(memberName);
 
             // 댓글 추가
             var articleNo = [[${article.articleNo}]];
