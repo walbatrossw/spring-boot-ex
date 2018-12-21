@@ -3,6 +3,7 @@
       lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{/layout/layout}">
 
 <th:block layout:fragment="head_title">
@@ -56,17 +57,12 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <a class="btn btn-primary btn-xs"
-                       th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
-                       role="button">
-                        <i class="fa fa-edit"></i> 수정 / 삭제
-                    </a>
-                    <a class="btn btn-primary btn-xs"
-                       th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
-                       role="button">
-                        <i class="fa fa-list"></i> 목록
-                    </a>
-                    <div class="float-right">
+                    <div class="float-left">
+                        <a class="btn btn-primary btn-xs"
+                           th:href="@{/article/list(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
+                           role="button">
+                            <i class="fa fa-list"></i> 목록
+                        </a>
                         <a class="btn btn-primary btn-xs"
                            th:href="@{/article/read(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo - 1})}"
                            role="button">
@@ -78,26 +74,47 @@
                             다음글 <i class="fa fa fa-chevron-right"></i>
                         </a>
                     </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <div class="float-right" th:with="memberName=${#authentication.principal.member.memberName}">
+                            <a class="btn btn-primary btn-xs"
+                               th:if="${memberName} eq ${article.writer}"
+                               th:href="@{/article/modify(page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword}, articleNo=${article.articleNo})}"
+                               role="button">
+                                <i class="fa fa-edit"></i> 수정 / 삭제
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-12 mt-5">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">댓글 작성</h4>
-                    <hr/>
-                    <div class="form-group">
-                        <textarea class="form-control" id="newReply" name="content"></textarea>
+            <div sec:authorize="isAnonymous()">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">댓글 작성</h4>
+                        <hr/>
+                        <p>댓글 작성은 <a th:href="@{/member/login}">로그인</a>한 사용자만 가능합니다.</p>
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" id="writer" type="text" name="writer" placeholder="작성자 이름을 입력해주세요">
-                    </div>
-                    <hr/>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-primary btn-xs float-right" id="replyAddBtn"><i
-                                class="fa fa-save"></i> 댓글 저장
-                        </button>
+                </div>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">댓글 작성</h4>
+                        <hr/>
+                        <div class="form-group">
+                            <textarea class="form-control" id="newReply" name="content"></textarea>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<input class="form-control" id="writer" type="text" name="writer">-->
+                        <!--</div>-->
+                        <hr/>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-xs float-right" id="replyAddBtn"><i
+                                    class="fa fa-save"></i> 댓글 저장
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,7 +180,7 @@
                         "            <div class=\"media align-items-center\">\n" +
                         "                <img src=\"/assets/images/team/team-author1.jpg\" class=\"d-block ui-w-30 rounded-circle\" alt=\"\">\n" +
                         "                <div class=\"media-body ml-5\">\n" +
-                        "                    <p style=\"font-size: 15px\"><a th:href=\"\">" + replyObj.writer + "</a></p>\n" +
+                        "                    <p style=\"font-size: 15px\"><a class=\"replyWriter\" href=\"\">" + replyObj.writer + "</a></p>\n" +
                         "                    <span style=\"font-size: 13px\">\n" +
                         "                        <i class=\"fa fa-clock-o\"></i>\n" +
                         "                           작성 : " + formatDate(replyObj.createDate) + " / 수정 : " + formatDate(replyObj.createDate) +
@@ -191,6 +208,7 @@
                         "    </div>\n" +
                         "</div>\n" +
                         "<hr/>";
+
                 }
                 $(".replies").html(str);
             }
@@ -205,6 +223,11 @@
                     + ":" + date.getMinutes();
             }
 
+            var memberName = [[${#authentication.principal.member.memberName}]];
+            var csrf = JSON.parse('[[${_csrf}]]');
+
+            console.log(memberName);
+
             // 댓글 추가
             var articleNo = [[${article.articleNo}]];
             var replyContentObj = $("textarea[name='content']");
@@ -214,9 +237,9 @@
             $("#replyAddBtn").click(function () {
                 if (confirm("댓글을 저장 하시겠습니까")) {
                     var content = replyContentObj.val();
-                    var writer = replyWriterObj.val();
-                    var obj = {content: content, writer: writer, articleNo: articleNo};
-
+                    var writer = memberName;
+                    var obj = {content : content, writer : writer, articleNo : articleNo, csrf : csrf};
+                    console.log(obj);
                     replyManager.add(obj, function (list) {
                         printList(list);
                         alert("새로운 댓글이 추가되었습니다.");
@@ -229,23 +252,27 @@
             // 댓글 수정 저장, 취소 버튼 생성
             $(document).on("click", "#modBtn", function (event) {
                 event.preventDefault();
-                console.log("clicked...");
-
                 var thisReply = $(this).parents(".reply");
-                var contentBody = thisReply.find(".contentBody");
-                var btnArea = thisReply.find(".btnArea");
-                contentBody.summernote({
-                    focus: true,
-                    lang: 'ko-KR',
-                    tabsize: 2,
-                    height: 150
-                });
+                var writer = thisReply.find(".replyWriter").text();
 
-                var buttonStr = "<div class=\"btn-group buttons\" role=\"group\">\n" +
-                    "    <button type=\"button\" class=\"btn btn-secondary btn-xs\" id=\"saveBtn\">저장</button>\n" +
-                    "    <button type=\"button\" class=\"btn btn-secondary btn-xs\" id=\"cancelBtn\">취소</button>\n" +
-                    "</div>";
-                btnArea.html(buttonStr);
+                if (memberName == writer) {
+                    var contentBody = thisReply.find(".contentBody");
+                    var btnArea = thisReply.find(".btnArea");
+                    contentBody.summernote({
+                        focus: true,
+                        lang: 'ko-KR',
+                        tabsize: 2,
+                        height: 150
+                    });
+                    var buttonStr = "<div class=\"btn-group buttons\" role=\"group\">\n" +
+                        "    <button type=\"button\" class=\"btn btn-secondary btn-xs\" id=\"saveBtn\">저장</button>\n" +
+                        "    <button type=\"button\" class=\"btn btn-secondary btn-xs\" id=\"cancelBtn\">취소</button>\n" +
+                        "</div>";
+                    btnArea.html(buttonStr);
+                } else {
+                    alert("댓글 작성자 본인만 수정할 수 있습니다.");
+                }
+
             });
 
             // 댓글 수정 저장 처리
@@ -255,7 +282,7 @@
                     var contentBody = thisReply.find(".contentBody");
                     var content = contentBody.summernote("code");
                     var replyNo = thisReply.find("#replyNo").val();
-                    var obj = {content : content, articleNo : articleNo, replyNo : replyNo};
+                    var obj = {content : content, articleNo : articleNo, replyNo : replyNo, csrf : csrf};
 
                     replyManager.modify(obj, function (list) {
                         printList(list);
@@ -274,15 +301,20 @@
             // 댓글 삭제 처리
             $(document).on("click", "#delBtn", function (event) {
                 event.preventDefault();
-                if (confirm("댓글 삭제하시겠습니까")) {
-                    var thisReply = $(this).parents(".reply");
-                    var replyNo = thisReply.find("#replyNo").val();
-                    var obj = {articleNo : articleNo, replyNo : replyNo};
-                    replyManager.remove(obj, function (list) {
-                        printList(list);
+                var thisReply = $(this).parents(".reply");
+                var writer = thisReply.find(".replyWriter").text();
 
-                        alert("댓글이 삭제 되었습니다.");
-                    });
+                if (memberName == writer) {
+                    if (confirm("댓글 삭제하시겠습니까")) {
+                        var replyNo = thisReply.find("#replyNo").val();
+                        var obj = {articleNo : articleNo, replyNo : replyNo, csrf : csrf};
+                        replyManager.remove(obj, function (list) {
+                            printList(list);
+                            alert("댓글이 삭제 되었습니다.");
+                        });
+                    }
+                } else {
+                    alert("댓글은 작성자만 삭제할 수 있습니다.")
                 }
 
             });

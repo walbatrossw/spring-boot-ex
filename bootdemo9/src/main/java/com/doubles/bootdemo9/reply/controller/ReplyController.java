@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -25,6 +26,7 @@ public class ReplyController {
     }
 
     // 댓글 추가
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @PostMapping("/{articleNo}")
     public ResponseEntity<List<Reply>> write(@PathVariable("articleNo") Long articleNo, @RequestBody Reply reply) {
 
@@ -42,6 +44,7 @@ public class ReplyController {
 
     // 댓글 수정
     @Transactional
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @PutMapping("/{articleNo}")
     public ResponseEntity<List<Reply>> modify(
             @PathVariable("articleNo") Long articleNo,
@@ -62,6 +65,7 @@ public class ReplyController {
 
     // 댓글 삭제
     @Transactional
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @DeleteMapping("/{articleNo}/{replyNo}")
     public ResponseEntity<List<Reply>> remove(
             @PathVariable("articleNo") Long articleNo,

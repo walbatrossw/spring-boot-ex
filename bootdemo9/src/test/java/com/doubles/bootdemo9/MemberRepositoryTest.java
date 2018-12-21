@@ -8,10 +8,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
@@ -22,6 +25,9 @@ public class MemberRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void insertMembers() {
@@ -55,4 +61,15 @@ public class MemberRepositoryTest {
 
     }
 
+    @Test
+    public void updateEncodePw() {
+        List<String> memberEmails = new ArrayList<>();
+        for (int i = 1; i <= 100; i++) {
+            memberEmails.add("user" + i + "@email.com");
+        }
+        memberRepository.findAllById(memberEmails).forEach(member -> {
+            member.setMemberPw(passwordEncoder.encode(member.getMemberPw()));
+            memberRepository.save(member);
+        });
+    }
 }

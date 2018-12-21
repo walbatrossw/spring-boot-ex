@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ public class ArticleController {
     }
 
     // 게시물 작성 페이지
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @GetMapping("/write")
     public void write(@ModelAttribute("article") Article article) {
 
@@ -54,6 +56,7 @@ public class ArticleController {
     }
 
     // 게시물 작성 처리
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @PostMapping("/write")
     public String write(@ModelAttribute("article") Article article, RedirectAttributes redirectAttributes) {
 
@@ -78,6 +81,7 @@ public class ArticleController {
     }
 
     // 게시물 수정 페이지
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @GetMapping("/modify")
     public void modify(Long articleNo, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
 
@@ -89,6 +93,7 @@ public class ArticleController {
     }
 
     // 게시물 수정 처리
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @PostMapping("/modify")
     public String modify(Article article, PageVO pageVO, RedirectAttributes redirectAttributes) {
 
@@ -112,6 +117,7 @@ public class ArticleController {
     }
 
     // 게시물 삭제 처리
+    @Secured(value = {"ROLE_BASIC", "ROLE_ADMIN"})
     @PostMapping("/remove")
     public String remove(Long articleNo, PageVO pageVO, RedirectAttributes redirectAttributes) {
 

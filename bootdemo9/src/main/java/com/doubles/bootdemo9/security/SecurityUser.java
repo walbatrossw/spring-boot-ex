@@ -22,7 +22,7 @@ public class SecurityUser extends User {
     private Member member;
 
     public SecurityUser(Member member) {
-        super(member.getMemberEmail(), "{noop}" + member.getMemberPw(), makeGrantedAuthority(member.getRoles()));
+        super(member.getMemberEmail(), member.getMemberPw(), makeGrantedAuthority(member.getRoles()));
         this.member = member;
     }
 

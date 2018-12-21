@@ -9,11 +9,15 @@ var replyManager =  (function () {
     // 댓글 추가
     var add = function (obj, callback) {
         console.log("add ...");
+        console.log(JSON.stringify(obj));
         $.ajax({
             type: "post",
             url: "/reply/" + obj.articleNo,
             data : JSON.stringify(obj),
             dataType : "JSON",
+            beforeSend : function (xhr) {
+                xhr.setRequestHeader(obj.csrf.headerName, obj.csrf.token);
+            },
             contentType : "application/json",
             success:callback
         });
@@ -27,6 +31,9 @@ var replyManager =  (function () {
             url: "/reply/" + obj.articleNo,
             data : JSON.stringify(obj),
             dataType : "JSON",
+            beforeSend : function (xhr) {
+                xhr.setRequestHeader(obj.csrf.headerName, obj.csrf.token);
+            },
             contentType : "application/json",
             success:callback
         });
@@ -39,6 +46,9 @@ var replyManager =  (function () {
             type: "delete",
             url: "/reply/" + obj.articleNo + "/" + obj.replyNo,
             dataType : "JSON",
+            beforeSend : function (xhr) {
+                xhr.setRequestHeader(obj.csrf.headerName, obj.csrf.token);
+            },
             contentType : "application/json",
             success:callback
         });

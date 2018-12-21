@@ -3,6 +3,8 @@ package com.doubles.bootdemo9.security;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +17,7 @@ import javax.sql.DataSource;
 
 @Log
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
@@ -35,9 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/article/list").permitAll()
                 .antMatchers("/article/read").permitAll()
-                .antMatchers("/article/write").hasRole("USER")
-                .antMatchers("/article/modify").hasRole("USER")
-                .antMatchers("/article/delete").hasRole("USER");
+                .antMatchers("/article/write").hasAnyRole("BASIC", "ADMIN")
+                .antMatchers("/article/modify").hasAnyRole("BASIC", "ADMIN")
+                .antMatchers("/article/delete").hasAnyRole("BASIC", "ADMIN")
+                .antMatchers("/reply/**").hasAnyRole("BASIC", "ADMIN");
 
         // 로그인 페이지
         http.formLogin().loginPage("/member/login");
@@ -66,4 +70,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        log.info("build auth global ...");
+
+        auth.userDetailsService(usersService).passwordEncoder(passwordEncoder());
+    }
 }
