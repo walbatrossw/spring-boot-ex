@@ -8,29 +8,29 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_members")
-@EqualsAndHashCode(of = "email")
+@EqualsAndHashCode(of = "memberEmail")
 @ToString
 public class Member {
 
     @Id
-    private String email;
+    private String memberEmail;
 
-    private String password;
+    private String memberPw;
 
-    private String name;
+    private String memberName;
 
     @CreationTimestamp
-    private LocalDateTime regDate;
+    private Timestamp regDate;
 
     @UpdateTimestamp
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "member")

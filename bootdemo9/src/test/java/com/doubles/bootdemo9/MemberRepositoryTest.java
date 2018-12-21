@@ -26,18 +26,21 @@ public class MemberRepositoryTest {
     @Test
     public void insertMembers() {
 
-        for (int i = 0; i <= 100; i++) {
+        for (int i = 1; i <= 100; i++) {
+
             Member member = new Member();
-            member.setEmail("user0" + (i%10) + "@mail.com");
-            member.setPassword("pw" + i);
-            member.setName("회원" + i);
+            member.setMemberEmail("user" + i + "@email.com");
+            member.setMemberPw("pw" + i);
+            member.setMemberName("회원" + i);
 
             MemberRole role = new MemberRole();
+
             if (i <= 90) {
                 role.setRoleName("BASIC");
             } else {
                 role.setRoleName("ADMIN");
             }
+
             member.setRoles(Arrays.asList(role));
             memberRepository.save(member);
         }
@@ -47,7 +50,7 @@ public class MemberRepositoryTest {
     @Test
     public void testRead() {
 
-        Optional<Member> result = memberRepository.findById("user99@mail.com");
+        Optional<Member> result = memberRepository.findById("user99@email.com");
         result.ifPresent(member -> log.info("member" + member));
 
     }

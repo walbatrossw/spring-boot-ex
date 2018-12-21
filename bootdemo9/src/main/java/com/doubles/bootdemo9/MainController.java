@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("/main")
-    public void main() {
-        log.info("main");
+    @GetMapping("/")
+    public String main() {
+        log.info("main() called ...");
+
+        return "/main";
     }
 
 }
