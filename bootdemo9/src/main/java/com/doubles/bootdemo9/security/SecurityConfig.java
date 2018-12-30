@@ -3,6 +3,7 @@ package com.doubles.bootdemo9.security;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,7 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/article/write").hasAnyRole("BASIC", "ADMIN")
                 .antMatchers("/article/modify").hasAnyRole("BASIC", "ADMIN")
                 .antMatchers("/article/delete").hasAnyRole("BASIC", "ADMIN")
-                .antMatchers("/reply/**").hasAnyRole("BASIC", "ADMIN");
+                .antMatchers(HttpMethod.GET, "/reply/**").permitAll()
+                .antMatchers(HttpMethod.POST ,"/reply/**").hasAnyRole("BASIC", "ADMIN")
+                .antMatchers(HttpMethod.DELETE ,"/reply/**").hasAnyRole("BASIC", "ADMIN")
+                .antMatchers(HttpMethod.PUT ,"/reply/**").hasAnyRole("BASIC", "ADMIN");
 
         // 로그인 페이지
         http.formLogin()
