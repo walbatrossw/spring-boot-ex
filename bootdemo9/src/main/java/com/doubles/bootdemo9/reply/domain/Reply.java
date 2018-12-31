@@ -30,7 +30,7 @@ public class Reply {
 
     @CreationTimestamp
     private Timestamp createDate;
-
+    
     @UpdateTimestamp
     private Timestamp updateDate;
 

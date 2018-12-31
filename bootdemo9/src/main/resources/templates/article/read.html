@@ -12,7 +12,6 @@
 </th:block>
 
 <body>
-
 <div class="page-title-area" layout:fragment="page_title">
     <div class="row align-items-center">
         <div class="col-sm-6">
@@ -27,10 +26,9 @@
         <div th:replace="fragments/profile::profile"></div>
     </div>
 </div>
-
 <div layout:fragment="content">
+    <form th:action="${'/login'}"></form>
     <div class="row">
-
         <div class="col-lg-12 mt-5">
             <div class="card">
                 <div class="card-body">
@@ -87,7 +85,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-12 mt-5">
             <div sec:authorize="isAnonymous()">
                 <div class="card">
@@ -119,7 +116,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-12 mt-5">
             <div class="card">
                 <div class="card-body">
@@ -131,7 +127,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 <th:block layout:fragment="script">

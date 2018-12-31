@@ -41,11 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/article/read").permitAll()
                 .antMatchers("/article/write").hasAnyRole("BASIC", "ADMIN")
                 .antMatchers("/article/modify").hasAnyRole("BASIC", "ADMIN")
-                .antMatchers("/article/delete").hasAnyRole("BASIC", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/reply/**").permitAll()
-                .antMatchers(HttpMethod.POST ,"/reply/**").hasAnyRole("BASIC", "ADMIN")
-                .antMatchers(HttpMethod.DELETE ,"/reply/**").hasAnyRole("BASIC", "ADMIN")
-                .antMatchers(HttpMethod.PUT ,"/reply/**").hasAnyRole("BASIC", "ADMIN");
+                .antMatchers("/article/delete").hasAnyRole("BASIC", "ADMIN");
 
         // 로그인 페이지
         http.formLogin()
